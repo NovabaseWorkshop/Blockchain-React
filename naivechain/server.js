@@ -63,7 +63,6 @@ var initHttpServer = http_port => {
   });
   app.get("/getBoxesByDate", (req, res) => {
     var response = {};
-    console.log(Blockchain);
     for (var i = 1; i < Blockchain.retailerBranch.length; i++) {
       if (Blockchain.retailerBranch[i].data.date in response) {
         var date = Blockchain.retailerBranch[i].data.date;
@@ -78,13 +77,78 @@ var initHttpServer = http_port => {
     }
     res.send(JSON.stringify(response));
   });
+  app.get("/getBoxes/:date/:produto", (req, res) => {
+    var date = req.params.date.replace(/-/g, "/");
+    var produto = req.params.produto;
+    var response = {};
+    var boxesIds = [];
+    response["Farmer"] = [];
+    response["Cooperative"] = [];
+    response["Retailer"] = [];
+    for (var i = 1; i < Blockchain.retailerBranch.length; i++) {
+      if (
+        Blockchain.retailerBranch[i].data.date === date &&
+        Blockchain.retailerBranch[i].data.produto === produto
+      ) {
+        boxesIds.push(Blockchain.retailerBranch[i].data.id);
+        response["Retailer"].push(Blockchain.retailerBranch[i].data);
+      }
+    }
+    response["Farmer"].push(
+      findBoxesInBlockchain(Blockchain.farmerBranch, boxesIds)
+    );
+    response["Cooperative"].push(
+      findBoxesInBlockchain(Blockchain.cooperativeBranch, boxesIds)
+    );
+    res.send(JSON.stringify(response));
+  });
   app.post("/addPeer", (req, res) => {
     connectToPeers([req.body.peer]);
     res.send();
   });
+  app.get("/cooperativeGetAvailableBoxes", (req, res) => {
+    var response = {};
+    var boxesIds = [];
+    response["boxesToSold"] = [];
+    for (var i = 1; i < Blockchain.retailerBranch.length; i++) {
+      boxesIds.push(Blockchain.retailerBranch[i].data.id);
+    }
+    for (var i = 1; i < Blockchain.cooperativeBranch.length; i++) {
+      if (!boxesIds.includes(Blockchain.cooperativeBranch[i].data.id)) {
+        response["boxesToSold"].push(Blockchain.cooperativeBranch[i].data);
+      }
+    }
+    res.send(JSON.stringify(response));
+  });
+  app.get("/farmerGetAvailableBoxes", (req, res) => {
+    var response = {};
+    var boxesIds = [];
+    response["boxesToSold"] = [];
+    for (var i = 1; i < Blockchain.cooperativeBranch.length; i++) {
+      boxesIds.push(Blockchain.cooperativeBranch[i].data.id);
+    }
+    console.log(boxesIds);
+    for (var i = 1; i < Blockchain.farmerBranch.length; i++) {
+      if (!boxesIds.includes(Blockchain.farmerBranch[i].data.id)) {
+        response["boxesToSold"].push(Blockchain.farmerBranch[i].data);
+      }
+    }
+    res.send(JSON.stringify(response));
+  });
+
   app.listen(http_port, () =>
     console.log("Listening http on port: " + http_port)
   );
+};
+
+var findBoxesInBlockchain = (blockchainBranch, ids) => {
+  var boxes = [];
+  for (var i = 1; i < blockchainBranch.length; i++) {
+    if (ids.includes(blockchainBranch[i].data.id)) {
+      boxes.push(blockchainBranch[i].data);
+    }
+  }
+  return boxes;
 };
 
 var initMessageHandler = ws => {
