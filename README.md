@@ -1,8 +1,8 @@
 # Blockchain-React Conceitos base
 
 **Pre-Requesitos:** 
-*Node.js
-*Postman(Apenas para testar os serviços)
+`*Node.js`
+`*Postman(Apenas para testar os serviços)`
 
 ### NaiveChain install
 
