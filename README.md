@@ -12,7 +12,7 @@
 ##### Serviços
      Serviço | Função
 ------------ | -------------
-/farmerMineBlock | body param json with box info
+"/farmerMineBlock" | body param json with box info
 /cooperativeMineBlock | body param json with box info
 
 /retailerMineBlock
