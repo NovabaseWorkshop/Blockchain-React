@@ -127,7 +127,6 @@ var initHttpServer = http_port => {
     for (var i = 1; i < Blockchain.cooperativeBranch.length; i++) {
       boxesIds.push(Blockchain.cooperativeBranch[i].data.id);
     }
-    console.log(boxesIds);
     for (var i = 1; i < Blockchain.farmerBranch.length; i++) {
       if (!boxesIds.includes(Blockchain.farmerBranch[i].data.id)) {
         response["boxesToSold"].push(Blockchain.farmerBranch[i].data);
@@ -153,8 +152,7 @@ var findBoxesInBlockchain = (blockchainBranch, ids) => {
 
 var initMessageHandler = ws => {
   ws.on("message", data => {
-    var message = JSON.parse(data.toString);
-    console.log("Received message" + JSON.stringify(message));
+    var message = JSON.parse(data);
     switch (message.type) {
       case Constants.MessageType.QUERY_LATEST:
         write(ws, responseLatestMsg());
@@ -189,30 +187,67 @@ function connectToPeers(newPeers) {
 }
 
 var handleBlockchainResponse = message => {
-  console.log(message.data);
   //var receivedBlocks = JSON.parse(message.data).sort(
   //  (b1, b2) => b1.index - b2.index
   //);
-  var receivedBlocks = message.data;
+  var receivedFarmerBlocks = JSON.parse(message.farmerBranch);
+  var receivedCooperativeBlocks = JSON.parse(message.cooperativeBranch);
+  var receivedRetailerBlocks = JSON.parse(message.retailerBranch);
+
+  var latestFarmerBlockHeld = Blockchain.getLatestFarmerBlock();
+  var latestCooperativeBlockHeld = Blockchain.getLatestCooperativeBlock();
+  var latestRetailerBlockHeld = Blockchain.getLatestRetailerBlock();
+
+  checkDifferencesInBlockchain(
+    latestFarmerBlockHeld,
+    receivedFarmerBlocks,
+    Constants.FARMER
+  );
+  checkDifferencesInBlockchain(
+    latestCooperativeBlockHeld,
+    receivedCooperativeBlocks,
+    Constants.COOPERATIVE
+  );
+  checkDifferencesInBlockchain(
+    latestRetailerBlockHeld,
+    receivedRetailerBlocks,
+    Constants.RETAILER
+  );
+};
+var checkDifferencesInBlockchain = (latestBlockHeld, receivedBlocks, type) => {
   var latestBlockReceived = receivedBlocks[receivedBlocks.length - 1];
-  var latestBlockHeld = Blockchain.getLatestBlock();
+
   if (latestBlockReceived.index > latestBlockHeld.index) {
     console.log(
-      "blockchain possibly behind. We got: " +
+      "branch blockchain possibly behind. We got: " +
         latestBlockHeld.index +
         " Peer got: " +
         latestBlockReceived.index
     );
     if (latestBlockHeld.hash === latestBlockReceived.previousHash) {
       console.log("We can append the received block to our chain");
-      blockchain.push(latestBlockReceived);
+      //blockchain.push(latestBlockReceived);
+      switch (type) {
+        case Constants.FARMER:
+          Blockchain.farmerBranch.push(latestBlockReceived);
+          break;
+        case Constants.COOPERATIVE:
+          console.log("add to cooperative");
+          Blockchain.cooperativeBranch.push(latestBlockReceived);
+          break;
+        case Constants.RETAILER:
+          Blockchain.retailerBranch.push(latestBlockReceived);
+          break;
+      }
       broadcast(responseLatestMsg());
     } else if (receivedBlocks.length === 1) {
       console.log("We have to query the chain from our peer");
       broadcast(queryAllMsg());
     } else {
       console.log("Received blockchain is longer than current blockchain");
-      replaceChain(receivedBlocks);
+      if (Blockchain.isValidChain(newBlocks)) {
+        replaceChain(receivedBlocks, type);
+      }
     }
   } else {
     console.log(
@@ -220,19 +255,41 @@ var handleBlockchainResponse = message => {
     );
   }
 };
-
-var replaceChain = newBlocks => {
-  if (
-    Blockchain.isValidChain(newBlocks) &&
-    newBlocks.length > blockchain.length
-  ) {
-    console.log(
-      "Received blockchain is valid. Replacing current blockchain with received blockchain"
-    );
-    blockchain = newBlocks;
-    broadcast(responseLatestMsg());
-  } else {
-    console.log("Received blockchain invalid");
+var replaceChain = (newBlocks, branchType) => {
+  switch (branchType) {
+    case Constants.FARMER:
+      if (newBlocks.length > Blockchain.farmerBranch.length) {
+        console.log(
+          "Received blockchain is valid. Replacing current blockchain with received blockchain"
+        );
+        Blockchain.farmerBranch = newBlocks;
+        broadcast(responseLatestMsg());
+      } else {
+        console.log("Received blockchain invalid");
+      }
+      break;
+    case Constants.COOPERATIVE:
+      if (newBlocks.length > Blockchain.cooperativeBranch.length) {
+        console.log(
+          "Received blockchain is valid. Replacing current blockchain with received blockchain"
+        );
+        Blockchain.cooperativeBranch = newBlocks;
+        broadcast(responseLatestMsg());
+      } else {
+        console.log("Received blockchain invalid");
+      }
+      break;
+    case Constants.RETAILER:
+      if (newBlocks.length > Blockchain.retailer.length) {
+        console.log(
+          "Received blockchain is valid. Replacing current blockchain with received blockchain"
+        );
+        Blockchain.retailerBranch = newBlocks;
+        broadcast(responseLatestMsg());
+      } else {
+        console.log("Received blockchain invalid");
+      }
+      break;
   }
 };
 
@@ -242,33 +299,26 @@ var queryChainLengthMsg = () => ({ type: Constants.MessageType.QUERY_LATEST });
 var queryAllMsg = () => ({ type: Constants.MessageType.QUERY_ALL });
 var responseChainMsg = () => ({
   type: Constants.MessageType.RESPONSE_BLOCKCHAIN,
-  data: JSON.stringify(blockchain)
+  farmerBranch: JSON.stringify(farmerBranch),
+  cooperativeBranch: JSON.stringify(cooperativeBranch),
+  retailerBranch: JSON.stringify(retailerBranch)
 });
 
-function responseLatestMsg(branchType) {
+function responseLatestMsg() {
   var lastFarmerBlock = "";
   var lastCooperativeBlock = "";
   var lastRetailerBlock = "";
-  switch (branchType) {
-    case Constants.EntityType.FARMER:
-      lastFarmerBlock = JSON.stringify([Blockchain.getLatestFarmerBlock()]);
-      break;
-    case Constants.EntityType.COOPERATIVE:
-      lastCooperativeBlock = JSON.stringify([
-        Blockchain.getLatestCooperativeBlock()
-      ]);
-      break;
-    case Constants.EntityType.RETAILER:
-      lastRetailerBlock = JSON.stringify([Blockchain.getLatestRetailerBlock()]);
-      break;
-    default:
-  }
+  lastFarmerBlock = JSON.stringify([Blockchain.getLatestFarmerBlock()]);
+  lastCooperativeBlock = JSON.stringify([
+    Blockchain.getLatestCooperativeBlock()
+  ]);
+  lastRetailerBlock = JSON.stringify([Blockchain.getLatestRetailerBlock()]);
   var type = Constants.MessageType.RESPONSE_BLOCKCHAIN;
   return {
     type,
-    lastFarmerBlock,
-    lastCooperativeBlock,
-    lastRetailerBlock
+    farmerBranch: lastFarmerBlock,
+    cooperativeBranch: lastCooperativeBlock,
+    retailerBranch: lastRetailerBlock
   };
 }
 
