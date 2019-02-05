@@ -30,7 +30,7 @@ POST | http://ip:port/retailerMineBlock | Creation of the Data corresponding to 
 Farmer
 {
   "id": 2,
-  "date": "1/1/00",
+  "date": "01/01/2000",
   "produto": "tatoes",
   "custoTransporte": 10,
   "quantidade": 10
@@ -38,14 +38,14 @@ Farmer
  
 {
   "id": 0,
-  "date": "1/1/00",
+  "date": "01/01/2000",
   "produto": "tatoes",
   "custoTransporte": 10,
   "quantidade": 10
 }
 {
   "id": 1,
-  "date": "5/10/00",
+  "date": "05/10/2000",
   "produto": "truffles",
   "custoTransporte": 5,
   "quantidade": 19
@@ -55,7 +55,7 @@ Farmer
 Cooperativa
 {
   "id": 1,
-  "date": "6/10/00",
+  "date": "06/10/2000",
   "produto": "truffles",
   "custoEntrega": 35,
   "margem": 14,
@@ -63,7 +63,7 @@ Cooperativa
 }
 {
   "id": 2,
-  "date": "2/1/00",
+  "date": "02/01/2000",
   "produto": "tatoes",
   "custoEntrega": 10,
   "margem": 14,
@@ -74,7 +74,7 @@ Cooperativa
 Retailer
 {
   "id": 1,
-  "date": "14/10/00",
+  "date": "14/10/2000",
   "produto": "truffles",
   "custoEntrega": 35,
   "margem": 14,
