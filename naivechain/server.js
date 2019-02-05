@@ -201,17 +201,17 @@ var handleBlockchainResponse = message => {
   checkDifferencesInBlockchain(
     latestFarmerBlockHeld,
     receivedFarmerBlocks,
-    Constants.FARMER
+    Constants.EntityType.FARMER
   );
   checkDifferencesInBlockchain(
     latestCooperativeBlockHeld,
     receivedCooperativeBlocks,
-    Constants.COOPERATIVE
+    Constants.EntityType.COOPERATIVE
   );
   checkDifferencesInBlockchain(
     latestRetailerBlockHeld,
     receivedRetailerBlocks,
-    Constants.RETAILER
+    Constants.EntityType.RETAILER
   );
 };
 var checkDifferencesInBlockchain = (latestBlockHeld, receivedBlocks, type) => {
@@ -227,15 +227,19 @@ var checkDifferencesInBlockchain = (latestBlockHeld, receivedBlocks, type) => {
     if (latestBlockHeld.hash === latestBlockReceived.previousHash) {
       console.log("We can append the received block to our chain");
       //blockchain.push(latestBlockReceived);
+      console.log("type");
+      console.log(type);
       switch (type) {
-        case Constants.FARMER:
+        case Constants.EntityType.FARMER:
+          console.log("add to farmer");
           Blockchain.farmerBranch.push(latestBlockReceived);
           break;
-        case Constants.COOPERATIVE:
+        case Constants.EntityType.COOPERATIVE:
           console.log("add to cooperative");
           Blockchain.cooperativeBranch.push(latestBlockReceived);
           break;
-        case Constants.RETAILER:
+        case Constants.EntityType.RETAILER:
+          console.log("retailer");
           Blockchain.retailerBranch.push(latestBlockReceived);
           break;
       }
@@ -299,9 +303,9 @@ var queryChainLengthMsg = () => ({ type: Constants.MessageType.QUERY_LATEST });
 var queryAllMsg = () => ({ type: Constants.MessageType.QUERY_ALL });
 var responseChainMsg = () => ({
   type: Constants.MessageType.RESPONSE_BLOCKCHAIN,
-  farmerBranch: JSON.stringify(farmerBranch),
-  cooperativeBranch: JSON.stringify(cooperativeBranch),
-  retailerBranch: JSON.stringify(retailerBranch)
+  farmerBranch: JSON.stringify(Blockchain.farmerBranch),
+  cooperativeBranch: JSON.stringify(Blockchain.cooperativeBranch),
+  retailerBranch: JSON.stringify(Blockchain.retailerBranch)
 });
 
 function responseLatestMsg() {
