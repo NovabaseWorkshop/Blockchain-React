@@ -1,16 +1,83 @@
 # Blockchain-React Conceitos base
 
-**Pre-Requesitos:** Node.js
+**Requirements:** 
+`Node.js`
+`Postman(Only to test the services)`
 
-##### NaiveChain install
+### NaiveChain install
 
-* npm install
-* HTTP_PORT=3001 P2P_PORT=6001 npm start (cria o primeiro nó)
-* HTTP_PORT=3002 P2P_PORT=6002 PEERS=ws://localhost:6001 npm start (cria o segundo nó)
-* HTTP_PORT=3003 P2P_PORT=6003 PEERS=ws://localhost:6001,ws://localhost:6002 npm start (cria um terceiro nó)
+Open the command Line in the Blockchain-React/naivechain directory and type the following:
 
-##### Serviços
-     Serviço | Função
------------- | -------------
-farmerMineBlock | body param json with box info
-cooperativeMineBlock | body param json with box info
+* `npm install` 
+* `npm start HTTP_PORT=3001 P2P_PORT=6001` (Executes the first Node)
+* `npm start HTTP_PORT=3002 P2P_PORT=6002 PEERS=ws://localhost:6001 ` (Executes the second Node)
+* `npm start HTTP_PORT=3003 P2P_PORT=6003 PEERS=ws://localhost:6001,ws://localhost:6002` (Executes the third Node)
+
+### Services (Using Postman W/ Json Examples)
+Request method | Service      | Function
+-------------- | ------------ | -------------
+POST | http://ip:port/farmerMineBlock | Creation of the Data corresponding to the **Farmer**.
+POST | http://ip:port/cooperativeMineBlock | Creation of the Data corresponding to the **Cooperative**.
+POST | http://ip:port/retailerMineBlock | Creation of the Data corresponding to the **Retailer**.
+ GET | http://ip:port/getBoxesByDate | Gets all the boxes bought by the **retailer** ordered by data.
+ GET | http://ip:port/getBoxes/:date/:produto |  :date (Ex: 14-6-2018), :produto (Ex: truffles) Gets the boxes timeline from a certain product purchased by the **retailer** in a given date.
+ GET | http://ip:port/cooperativeGetAvailableBoxes | Gets the boxes sold by the **cooperative**
+ GET | http://ip:port/farmerGetAvailableBoxes | Gets the boxes sold by the **farmer**
+
+### Json Examples
+
+```
+Farmer
+{
+  "id": 2,
+  "date": "1/1/00",
+  "produto": "tatoes",
+  "custoTransporte": 10,
+  "quantidade": 10
+}
+ 
+{
+  "id": 0,
+  "date": "1/1/00",
+  "produto": "tatoes",
+  "custoTransporte": 10,
+  "quantidade": 10
+}
+{
+  "id": 1,
+  "date": "5/10/00",
+  "produto": "truffles",
+  "custoTransporte": 5,
+  "quantidade": 19
+}
+```
+```
+Cooperativa
+{
+  "id": 1,
+  "date": "6/10/00",
+  "produto": "truffles",
+  "custoEntrega": 35,
+  "margem": 14,
+  "custoFinal": 40.25
+}
+{
+  "id": 2,
+  "date": "2/1/00",
+  "produto": "tatoes",
+  "custoEntrega": 10,
+  "margem": 14,
+  "custoFinal": 40.25
+}
+```
+```
+Retailer
+{
+  "id": 1,
+  "date": "14/10/00",
+  "produto": "truffles",
+  "custoEntrega": 35,
+  "margem": 14,
+  "custoFinal": 40.25
+}
+```
