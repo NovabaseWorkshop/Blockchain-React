@@ -1,28 +1,30 @@
 # Blockchain-React Conceitos base
 
-**Pre-Requesitos:** 
+**Requirements:** 
 `Node.js`
-`Postman(Apenas para testar os serviços)`
+`Postman(Only to test the services)`
 
 ### NaiveChain install
 
+Open the command Line:
+
 * `npm install`
-* `HTTP_PORT=3001 P2P_PORT=6001 npm start` (cria o primeiro nó)
-* `HTTP_PORT=3002 P2P_PORT=6002 PEERS=ws://localhost:6001 npm start` (cria o segundo nó)
-* `HTTP_PORT=3003 P2P_PORT=6003 PEERS=ws://localhost:6001,ws://localhost:6002 npm start` (cria um terceiro nó)
+* `HTTP_PORT=3001 P2P_PORT=6001 npm start` (Executes the first Node)
+* `HTTP_PORT=3002 P2P_PORT=6002 PEERS=ws://localhost:6001 npm start` (Executes the second Node)
+* `HTTP_PORT=3003 P2P_PORT=6003 PEERS=ws://localhost:6001,ws://localhost:6002 npm start` (Executes the third Node)
 
-### Serviços
-Serviço      | Função
+### Services
+Service      | Function
 ------------ | -------------
-http://ip:port/farmerMineBlock | Criação da Data correspondente ao **Agricultor**
-http://ip:port/cooperativeMineBlock | Criação da Data correspondente à **Cooperativa**
-http://ip:port/retailerMineBlock | Criação da Data correspondente ao **Retalhista**
-http://ip:port/getBoxesByDate | Obtem as caixas do **retalhista** ordenadas por data
-http://ip:port/getBoxes/:date/:produto |  :date (Ex: 14-6-2018), :produto (Ex: truffles) Obtem a timeline das caixas de um certo produto comprado pelo **retalhista** numa dada data 
-http://ip:port/cooperativeGetAvailableBoxes | Obtem as caixas vendidas pela **cooperativa**
-http://ip:port/farmerGetAvailableBoxes |Obtem as caixas vendidas pelo **agricultor**
+http://ip:port/farmerMineBlock | Creation of the Data corresponding to the **Farmer**.
+http://ip:port/cooperativeMineBlock | Creation of the Data corresponding to the **Cooperative**.
+http://ip:port/retailerMineBlock | Creation of the Data corresponding to the **Retailer**.
+http://ip:port/getBoxesByDate | Gets all the boxes bought by the **retailer** ordered by data.
+http://ip:port/getBoxes/:date/:produto |  :date (Ex: 14-6-2018), :produto (Ex: truffles) Gets the boxes timeline from a certain product purchased by the **retailer** in a given date.
+http://ip:port/cooperativeGetAvailableBoxes | Gets the boxes sold by the **cooperative**
+http://ip:port/farmerGetAvailableBoxes | Gets the boxes sold by the **farmer**
 
-### Exemplos Json
+### Json Examples
 
 ```
 Farmer
