@@ -1,13 +1,15 @@
 # Blockchain-React Conceitos base
 
-**Pre-Requesitos:** Node.js
+**Pre-Requesitos:** 
+*Node.js
+*Postman(Apenas para testar os serviços)
 
 ### NaiveChain install
 
 * `npm install`
 * `HTTP_PORT=3001 P2P_PORT=6001 npm start` (cria o primeiro nó)
-* HTTP_PORT=3002 P2P_PORT=6002 PEERS=ws://localhost:6001 npm start (cria o segundo nó)
-* HTTP_PORT=3003 P2P_PORT=6003 PEERS=ws://localhost:6001,ws://localhost:6002 npm start (cria um terceiro nó)
+* `HTTP_PORT=3002 P2P_PORT=6002 PEERS=ws://localhost:6001 npm start` (cria o segundo nó)
+* `HTTP_PORT=3003 P2P_PORT=6003 PEERS=ws://localhost:6001,ws://localhost:6002 npm start` (cria um terceiro nó)
 
 ### Serviços
 Serviço      | Função
@@ -23,7 +25,7 @@ http://ip:port/farmerGetAvailableBoxes |Obtem as caixas vendidas pelo **agricult
 ### Exemplo Json
 
 ```
-**Farmer**
+Farmer
 {
   "id": 2,
   "date": "1/1/00",
@@ -45,5 +47,35 @@ http://ip:port/farmerGetAvailableBoxes |Obtem as caixas vendidas pelo **agricult
   "produto": "truffles",
   "custoTransporte": 5,
   "quantidade": 19
+}
+```
+```
+Cooperativa
+{
+  "id": 1,
+  "date": "6/10/00",
+  "produto": "truffles",
+  "custoEntrega": 35,
+  "margem": 14,
+  "custoFinal": 40.25
+}
+{
+  "id": 2,
+  "date": "2/1/00",
+  "produto": "tatoes",
+  "custoEntrega": 10,
+  "margem": 14,
+  "custoFinal": 40.25
+}
+```
+```
+Retailer
+{
+  "id": 1,
+  "date": "14/10/00",
+  "produto": "truffles",
+  "custoEntrega": 35,
+  "margem": 14,
+  "custoFinal": 40.25
 }
 ```
