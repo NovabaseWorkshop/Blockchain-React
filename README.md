@@ -52,7 +52,7 @@ Farmer
 }
 ```
 ```
-Cooperativa
+Cooperative
 {
   "id": 1,
   "date": "06/10/2000",
