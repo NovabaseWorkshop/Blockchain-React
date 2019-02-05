@@ -18,7 +18,7 @@ http://ip:port/farmerMineBlock | Criação da Data correspondente ao **Agriculto
 http://ip:port/cooperativeMineBlock | Criação da Data correspondente à **Cooperativa**
 http://ip:port/retailerMineBlock | Criação da Data correspondente ao **Retalhista**
 http://ip:port/getBoxesByDate | Obtem as caixas do **retalhista** ordenadas por data
-http://ip:port/getBoxes/:date/:produto | url params: date (Ex: 14-6-2018), produto (Ex: truffles) Obtem a timeline das caixas de um certo produto comprado pelo **retalhista** numa dada data 
+http://ip:port/getBoxes/:date/:produto |  :date (Ex: 14-6-2018), :produto (Ex: truffles) Obtem a timeline das caixas de um certo produto comprado pelo **retalhista** numa dada data 
 http://ip:port/cooperativeGetAvailableBoxes | Obtem as caixas vendidas pela **cooperativa**
 http://ip:port/farmerGetAvailableBoxes |Obtem as caixas vendidas pelo **agricultor**
 
