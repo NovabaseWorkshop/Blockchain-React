@@ -9,9 +9,9 @@
 Open the command Line in the Blockchain-React/naivechain directory and type the following:
 
 * `npm install` 
-* `npm start HTTP_PORT=3001 P2P_PORT=6001` (Executes the first Node)
-* `npm start HTTP_PORT=3002 P2P_PORT=6002 PEERS=ws://localhost:6001 ` (Executes the second Node)
-* `npm start HTTP_PORT=3003 P2P_PORT=6003 PEERS=ws://localhost:6001,ws://localhost:6002` (Executes the third Node)
+* `npm start 3001 6001` (Executes the first Node with HTTP_PORT:3001 and PEER_PORT:6001)
+* `npm start 3002 6002 ws://localhost:6001 ` (Executes the second Node)
+* `npm start 3003 6003 ws://localhost:6001,ws://localhost:6002` (Executes the third Node)
 
 ### Services (Using Postman W/ Json Examples)
 Request method | Service      | Function
