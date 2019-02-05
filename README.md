@@ -22,7 +22,7 @@ http://ip:port/getBoxes/:date/:produto |  :date (Ex: 14-6-2018), :produto (Ex: t
 http://ip:port/cooperativeGetAvailableBoxes | Obtem as caixas vendidas pela **cooperativa**
 http://ip:port/farmerGetAvailableBoxes |Obtem as caixas vendidas pelo **agricultor**
 
-### Exemplo Json
+### Exemplos Json
 
 ```
 Farmer
