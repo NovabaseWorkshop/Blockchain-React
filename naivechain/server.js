@@ -153,6 +153,7 @@ var findBoxesInBlockchain = (blockchainBranch, ids) => {
 var initMessageHandler = ws => {
   ws.on("message", data => {
     var message = JSON.parse(data);
+
     switch (message.type) {
       case Constants.MessageType.QUERY_LATEST:
         write(ws, responseLatestMsg());
@@ -249,8 +250,11 @@ var checkDifferencesInBlockchain = (latestBlockHeld, receivedBlocks, type) => {
       broadcast(queryAllMsg());
     } else {
       console.log("Received blockchain is longer than current blockchain");
-      if (Blockchain.isValidChain(newBlocks)) {
+      if (Blockchain.isValidChain(receivedBlocks)) {
+        console.log("replace chain");
         replaceChain(receivedBlocks, type);
+      } else {
+        console.log("received blockchain is not valid");
       }
     }
   } else {
@@ -261,7 +265,7 @@ var checkDifferencesInBlockchain = (latestBlockHeld, receivedBlocks, type) => {
 };
 var replaceChain = (newBlocks, branchType) => {
   switch (branchType) {
-    case Constants.FARMER:
+    case Constants.EntityType.FARMER:
       if (newBlocks.length > Blockchain.farmerBranch.length) {
         console.log(
           "Received blockchain is valid. Replacing current blockchain with received blockchain"
@@ -272,7 +276,7 @@ var replaceChain = (newBlocks, branchType) => {
         console.log("Received blockchain invalid");
       }
       break;
-    case Constants.COOPERATIVE:
+    case Constants.EntityType.COOPERATIVE:
       if (newBlocks.length > Blockchain.cooperativeBranch.length) {
         console.log(
           "Received blockchain is valid. Replacing current blockchain with received blockchain"
@@ -283,7 +287,7 @@ var replaceChain = (newBlocks, branchType) => {
         console.log("Received blockchain invalid");
       }
       break;
-    case Constants.RETAILER:
+    case Constants.EntityType.RETAILER:
       if (newBlocks.length > Blockchain.retailer.length) {
         console.log(
           "Received blockchain is valid. Replacing current blockchain with received blockchain"
