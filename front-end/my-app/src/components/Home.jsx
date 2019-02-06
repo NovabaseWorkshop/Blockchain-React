@@ -61,36 +61,20 @@ class Home extends Component {
   }
 
   submitData = () => {
-    let id = this.state.id + 1;
-
+  
     var min = 1;
-    var max = 100;
-    var rand =  min + (Math.random() * (max-min));
-
-    fetch("http://localhost:3001/farmerMineBlock", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: id,
-        product: this.state.product,
-        transport_cost: this.state.transport_cost,
-        weight: this.state.weight,
-        price: this.state.price,
-        date: this.state.date
-      })
-    }).then(this.setState({ id: id }));
+    var max = 1000000000;
+    var rand =  parseInt(min + (Math.random() * (max-min)));
+    
+    fetch("http://localhost:3001/farmerGetAvailableBoxes").then(data => data.json())
+    .then((data) => { console.log(data)})
   };
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
 
-  componentWillMount() {
-    this.setState({ id: Utils() });
-  }
+  
   myHandlerInput = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -114,6 +98,8 @@ class Home extends Component {
                 name="product"
                 handleChange={this.myHandlerInput}
                 selectedProduct={this.state.product}
+                description="Product"
+                
               />
             </Paper>
           </Grid>

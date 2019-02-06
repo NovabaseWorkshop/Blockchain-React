@@ -20,7 +20,7 @@ const styles = theme => ({
 });
 
 const SelecterFarmer = props => {
-  const { classes, selectedProduct, handleChange } = props;
+  const { classes, selectedProduct, handleChange, description } = props;
   console.log(props);
 
   return (
@@ -33,12 +33,13 @@ const SelecterFarmer = props => {
           displayEmpty
         >
           <MenuItem value="" disabled>
-            Product
+            {description}
           </MenuItem>
-          <MenuItem value={1}>Potatoes</MenuItem>
-          <MenuItem value={2}>Onions</MenuItem>
-          <MenuItem value={3}>Truffles</MenuItem>
-          <MenuItem value={4}>Oranges</MenuItem>
+          <MenuItem value="Potatoes">Potatoes</MenuItem>
+          <MenuItem value="Onions">Onions</MenuItem>
+          <MenuItem value="Truffles">Truffles</MenuItem>
+          <MenuItem value="Oranges">Oranges</MenuItem>
+          
         </Select>
       </FormControl>
     </div>
