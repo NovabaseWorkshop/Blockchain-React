@@ -22,7 +22,7 @@ POST | http://ip:port/retailerMineBlock | Creation of the Data corresponding to 
  GET | http://ip:port/getBoxesByDate | Gets all the boxes bought by the **retailer** ordered by data.
  GET | http://ip:port/getBoxes/:date/:produto |  :date (Ex: 14-6-2018), :produto (Ex: truffles) Gets the boxes timeline from a certain product purchased by the **retailer** in a given date.
  GET | http://ip:port/cooperativeGetAvailableBoxes | Gets the boxes sold by the **cooperative**
- GET | http://ip:port/farmerGetAvailableBoxes | Gets the boxes sold by the **farmer**
+ GET | http://ip:port/farmerGetAvailableBoxes | Gets the avaliable boxes by the **farmer**
 
 ### Json Examples
 
