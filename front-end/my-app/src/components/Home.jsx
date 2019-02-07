@@ -46,10 +46,25 @@ const styles = theme => ({
   }
 });
 
+const selectObject = [
+  {
+    id: "Potatoes"
+  },
+  {
+    id: "Onions"
+  },
+  {
+    id: "Truffles"
+  },
+  {
+    id: "Oranges"
+  }
+];
+
 class Home extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       product: "",
       transport_cost: "",
@@ -61,20 +76,31 @@ class Home extends Component {
   }
 
   submitData = () => {
-  
     var min = 1;
     var max = 1000000000;
-    var rand =  parseInt(min + (Math.random() * (max-min)));
-    
-    fetch("http://localhost:3001/farmerGetAvailableBoxes").then(data => data.json())
-    .then((data) => { console.log(data)})
+    var rand = parseInt(min + Math.random() * (max - min));
+
+    fetch("http://localhost:3001/farmerMineBlock", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: rand,
+        product: this.state.product,
+        transport_cost: this.state.transport_cost,
+        weight: this.state.weight,
+        price: this.state.price,
+        date: this.state.date
+      })
+    });
   };
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
 
-  
   myHandlerInput = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -99,7 +125,7 @@ class Home extends Component {
                 handleChange={this.myHandlerInput}
                 selectedProduct={this.state.product}
                 description="Product"
-                
+                items={selectObject}
               />
             </Paper>
           </Grid>

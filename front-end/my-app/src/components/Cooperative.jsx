@@ -49,22 +49,22 @@ const styles = theme => ({
 class Cooperative extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       product: "",
       transport_cost: "",
       weight: "",
       price: "",
       id: -1,
-      date: "2018-2-14"
+      date: "2018-2-14",
+      boxes_sold: []
     };
   }
 
   submitData = () => {
-  
     var min = 1;
     var max = 1000000000;
-    var rand =  parseInt(min + (Math.random() * (max-min)));
+    var rand = parseInt(min + Math.random() * (max - min));
 
     fetch("http://localhost:3001/farmerMineBlock", {
       method: "POST",
@@ -80,32 +80,43 @@ class Cooperative extends Component {
         price: this.state.price,
         date: this.state.date
       })
-    })
+    });
   };
+
+  componentDidMount() {
+    console.log("ola");
+    fetch("http://localhost:3001/farmerGetAvailableBoxes")
+      .then(data => data.json())
+      .then(data => {
+        this.setState({ boxes_sold: data.boxesToSold });
+        console.log(this.state.boxes_sold);
+      });
+  }
+
+  getFarmerData = () => {};
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
 
-  
   myHandlerInput = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
   render() {
     const { classes } = this.props;
-    var a = this.state.product;
+
     return (
       <div>
         <AppBar />
         <h1 style={{ color: "black", marginRight: "30px" }}>
-          Registo do produto{" "}
+          Product Purchase
         </h1>
         <Grid
-  container
-  direction="row"
-  justify="space-evenly"
-  alignItems="center"
->
+          container
+          direction="row"
+          justify="space-evenly"
+          alignItems="center"
+        >
           <Grid item>
             <Paper className={classes.paper}>
               <Selecter
@@ -113,7 +124,7 @@ class Cooperative extends Component {
                 handleChange={this.myHandlerInput}
                 selectedProduct={this.state.product}
                 description="BoxID"
-                
+                items={this.state.boxes_sold}
               />
             </Paper>
           </Grid>
@@ -150,34 +161,34 @@ class Cooperative extends Component {
             </Paper>
           </Grid>
         </Grid>
-
-<Grid item>
-
-  Custo: €
-  <br></br>
-  <br></br>
-  Custo: €/kg
-  <br></br>
-  <br></br>
-  Peso: kg
-  <br></br>
-  <br></br>
-  Final Cost for Retailer: €
-</Grid>     
-
-     
         <Grid item>
-            <div className={classes.paper}>
-              <Button
-                variant="contained"
-                date="name"
-                className={classes.button}
-                onClick={this.submitData}
-              >
-                Submit
-              </Button>
-            </div>
-          </Grid>
+          Product name:
+          <br />
+          <br />
+          Custo: €
+          <br />
+          <br />
+          Custo: €/kg
+          <br />
+          <br />
+          Peso: kg
+          <br />
+          <br />
+          Final Cost for Retailer: €
+        </Grid>
+
+        <Grid item>
+          <div className={classes.paper}>
+            <Button
+              variant="contained"
+              date="name"
+              className={classes.button}
+              onClick={this.submitData}
+            >
+              BUY
+            </Button>
+          </div>
+        </Grid>
       </div>
     );
   }
