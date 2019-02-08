@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Cooperative from "./components/Cooperative.jsx";
 import Retailer from "./components/Retailer.jsx";
+import RetailerPurchase from "./components/RetailerPurchase.jsx";
 
 class App extends Component {
   render() {
@@ -14,7 +15,7 @@ class App extends Component {
           <Route path="/farmer" component={Home} />
           <Route path="/cooperative" component={Cooperative} />
           <Router path="/retailer" component={Retailer} />
-          <Router path="/retailerpurchase" component={Retailer} />
+          <Router path="/retailerpurchase" component={RetailerPurchase} />
         </Switch>
       </Router>
     );

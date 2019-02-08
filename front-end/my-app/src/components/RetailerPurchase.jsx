@@ -41,7 +41,7 @@ const styles = theme => ({
   }
 });
 
-class Cooperative extends Component {
+class RetailerPurchase extends Component {
   constructor(props) {
     super(props);
 
@@ -236,8 +236,8 @@ class Cooperative extends Component {
   }
 }
 
-Cooperative.propTypes = {
+RetailerPurchase.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Cooperative);
+export default withStyles(styles)(RetailerPurchase);
