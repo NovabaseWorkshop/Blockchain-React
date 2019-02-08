@@ -5,7 +5,6 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var sockets = [];
 
-var blockchain = [Blockchain.getGenesisBlock()];
 var initP2PServer = p2p_port => {
   var server = new WebSocket.Server({ port: p2p_port });
   server.on("connection", ws => initConnection(ws));
@@ -300,8 +299,6 @@ var replaceChain = (newBlocks, branchType) => {
       break;
   }
 };
-
-var getLatestBlock = () => blockchain[blockchain.length - 1];
 
 var queryChainLengthMsg = () => ({ type: Constants.MessageType.QUERY_LATEST });
 var queryAllMsg = () => ({ type: Constants.MessageType.QUERY_ALL });
