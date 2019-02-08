@@ -9,6 +9,11 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import classNames from "classnames";
 import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const styles = theme => ({
   root: {
@@ -41,6 +46,46 @@ const styles = theme => ({
   }
 });
 
+const styles2 = theme => ({
+  root: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 3,
+    overflowX: "auto"
+  },
+  table: {
+    minWidth: 700
+  },
+  row: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.background.default
+    }
+  }
+});
+
+let id = 0;
+function createData(name, calories, fat, carbs, protein) {
+  id += 1;
+  return { id, name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9)
+];
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
+
 class RetailerPurchase extends Component {
   constructor(props) {
     super(props);
@@ -52,18 +97,25 @@ class RetailerPurchase extends Component {
       price: "",
       id: -1,
       date: "2018-2-14",
-      boxes_sold: [],
+      avaliable_boxes: [],
       item: {},
-      margin: null
+      margin: null,
+      disabled: false
     };
   }
 
   submitData = item => {
-    var min = 1;
-    var max = 1000000000;
-    var rand = parseInt(min + Math.random() * (max - min));
+    let array = this.state.avaliable_boxes;
 
-    fetch("http://localhost:3001/cooperativeMineBlock", {
+    var index = array.indexOf(item);
+    console.log(index);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+    this.setState({ avaliable_boxes: array });
+
+    console.log("maria: " + item);
+    fetch("http://localhost:3001/retailerMineBlock", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -73,21 +125,19 @@ class RetailerPurchase extends Component {
         id: item.id,
         product: item.product,
         weight: item.weight,
-        price: item.price * item.weight,
+        price: item.price,
         date: this.state.date,
-        margin: this.state.margin,
-        transport_cost: this.state.transport_cost,
-        final_cost_retailer: this.getFinalPrice(item)
+        final_cost: item.final_cost_retailer
       })
     });
   };
 
   componentDidMount() {
-    fetch("http://localhost:3001/farmerGetAvailableBoxes")
+    fetch("http://localhost:3001/cooperativeGetAvailableBoxes")
       .then(data => data.json())
       .then(data => {
-        this.setState({ boxes_sold: data.boxesToSold });
-        console.log(this.state.boxes_sold);
+        this.setState({ avaliable_boxes: data.boxesToSold });
+        console.log(this.state.avaliable_boxes);
       });
   }
 
@@ -102,9 +152,9 @@ class RetailerPurchase extends Component {
   };
 
   getProductObject() {
-    for (let i = 0; i < this.state.boxes_sold.length; i++) {
-      if (this.state.boxes_sold[i].id === this.state.product) {
-        return this.state.boxes_sold[i];
+    for (let i = 0; i < this.state.avaliable_boxes.length; i++) {
+      if (this.state.avaliable_boxes[i].id === this.state.product) {
+        return this.state.avaliable_boxes[i];
       }
     }
   }
@@ -124,113 +174,65 @@ class RetailerPurchase extends Component {
     return (
       <div>
         <AppBar />
-        <h1 style={{ color: "black", marginRight: "30px" }}>
-          Cooperative: Product Purchase
-        </h1>
-        <Grid
-          container
-          direction="row"
-          justify="space-evenly"
-          alignItems="center"
-        >
-          <Grid item>
-            <Paper className={classes.paper}>
-              <Selecter
-                name="product"
-                handleChange={this.myHandlerInput}
-                selectedProduct={this.state.product}
-                description="BoxID"
-                items={this.state.boxes_sold}
-              />
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={classes.paper}>
-              <TextField
-                label="Deliever Cost"
-                name="transport_cost"
-                onChange={this.myHandlerInput}
-                id="simple-start-adornment"
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">€</InputAdornment>
-                  )
-                }}
-              />
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={classes.paper}>
-              <TextField
-                label="Margin"
-                id="simple-start-adornment"
-                name="margin"
-                onChange={this.myHandlerInput}
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">%</InputAdornment>
-                  )
-                }}
-              />
-            </Paper>
-          </Grid>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <CustomTableCell>BoxId </CustomTableCell>
+                <CustomTableCell align="right">Product</CustomTableCell>
+                <CustomTableCell align="right">Cost/kg</CustomTableCell>
+                <CustomTableCell align="right">Weight/kg</CustomTableCell>
+                <CustomTableCell align="right">Total Cost</CustomTableCell>
+                <CustomTableCell align="right" />
+                <CustomTableCell align="right" />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.avaliable_boxes.map(row => (
+                <TableRow className={classes.row} key={row.id}>
+                  <CustomTableCell component="th" scope="row">
+                    {row.id}
+                  </CustomTableCell>
+                  <CustomTableCell align="right">{row.product}</CustomTableCell>
+                  <CustomTableCell align="right">{row.price}</CustomTableCell>
+                  <CustomTableCell align="right">{row.weight}</CustomTableCell>
+                  <CustomTableCell align="right">
+                    {row.final_cost_retailer}
+                  </CustomTableCell>
 
-          <Grid item>
-            <Paper className={classes.paper}>
-              <form className={classes.container} noValidate>
-                <TextField
-                  id="date"
-                  name="date"
-                  label="Date"
-                  onChange={this.myHandlerInput}
-                  type="date"
-                  defaultValue="2018-02-14"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </form>
-            </Paper>
-          </Grid>
-          <Grid item />
-        </Grid>
-        <Grid item>
-          Product name: <span />
-          <b>{product ? product.product : null}</b>
-          <br />
-          <br />
-          Total Box Cost:
-          <b>{product ? product.price * product.weight : null} €</b>
-          <br />
-          <br />
-          Cost kg: <b>{product ? product.price : null} €</b>
-          <br />
-          <br />
-          Weight: <b>{product ? product.weight : null} kg </b>
-          <br />
-          <br />
-          Final Cost for Retailer:
-          <b>
-            {this.state.margin && product ? this.getFinalPrice(product) : null}{" "}
-            €
-          </b>
-        </Grid>
+                  <CustomTableCell align="right">
+                    <form className={classes.container} noValidate>
+                      <TextField
+                        id="date"
+                        name="date"
+                        label="Date"
+                        onChange={this.myHandlerInput}
+                        type="date"
+                        defaultValue="2018-02-14"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                      />
+                    </form>
+                  </CustomTableCell>
 
-        <Grid item>
-          <div className={classes.paper}>
-            <Button
-              variant="contained"
-              date="name"
-              className={classes.button}
-              onClick={() => this.submitData(product)}
-            >
-              BUY
-            </Button>
-          </div>
-        </Grid>
+                  <CustomTableCell align="right">
+                    <Button
+                      variant="contained"
+                      date="name"
+                      className={classes.button}
+                      onClick={() => this.submitData(row)}
+                      {...(this.state.disabled ? "disabled" : null)}
+                    >
+                      BUY
+                    </Button>
+                  </CustomTableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
       </div>
     );
   }
@@ -240,4 +242,4 @@ RetailerPurchase.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(RetailerPurchase);
+export default withStyles(styles, styles2)(RetailerPurchase);

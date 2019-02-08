@@ -14,8 +14,8 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/farmer" component={Home} />
           <Route path="/cooperative" component={Cooperative} />
-          <Router path="/retailer" component={Retailer} />
-          <Router path="/retailerpurchase" component={RetailerPurchase} />
+          <Route path="/retailerpurchase" component={RetailerPurchase} />
+          <Route path="/retailer" component={Retailer} />
         </Switch>
       </Router>
     );

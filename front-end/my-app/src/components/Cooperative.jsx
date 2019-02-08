@@ -73,7 +73,7 @@ class Cooperative extends Component {
         id: item.id,
         product: item.product,
         weight: item.weight,
-        price: item.price * item.weight,
+        price: item.price,
         date: this.state.date,
         margin: this.state.margin,
         transport_cost: this.state.transport_cost,
@@ -110,11 +110,19 @@ class Cooperative extends Component {
   }
 
   getFinalPrice(item) {
-    console.log("meeeeh");
+    let margin = this.state.margin / 100 + 1;
     let final_cost =
-      (item.price * item.weight + item.transport_cost) * this.state.margin;
-    console.log("camarao: " + final_cost);
+      (item.price * item.weight +
+        Number(item.transport_cost) +
+        Number(this.state.transport_cost)) *
+      margin;
+
     return final_cost;
+  }
+
+  getTotalBoxCost(item) {
+    let price = item.price * item.weight + Number(item.transport_cost);
+    return price;
   }
 
   render() {
@@ -203,7 +211,7 @@ class Cooperative extends Component {
           <br />
           <br />
           Total Box Cost:
-          <b>{product ? product.price * product.weight : null} €</b>
+          <b>{product ? this.getTotalBoxCost(product) : null}€</b>
           <br />
           <br />
           Cost kg: <b>{product ? product.price : null} €</b>
