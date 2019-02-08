@@ -3,8 +3,14 @@ var Constants = require("./constants.js");
 var Blockchain = require("./blockchain.js");
 var express = require("express");
 var bodyParser = require("body-parser");
+var cors = require('cors');
 var sockets = [];
 
+<<<<<<< HEAD
+=======
+
+var blockchain = [Blockchain.getGenesisBlock()];
+>>>>>>> 6461f7ef6a80afb00910f1b3e42e2882babb262c
 var initP2PServer = p2p_port => {
   var server = new WebSocket.Server({ port: p2p_port });
   server.on("connection", ws => initConnection(ws));
@@ -20,6 +26,8 @@ var initConnection = ws => {
 var initHttpServer = http_port => {
   var app = express();
   app.use(bodyParser.json());
+  app.use(cors());
+  app.options('*', cors());
 
   //app.get("/blocks", (req, res) => res.send(JSON.stringify(blockchain)));
 

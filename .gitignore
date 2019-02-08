@@ -2,6 +2,7 @@
 
 # dependencies
 naivechain/node_modules
+front-end/my-app/node_modules
 /.pnp
 .pnp.js
 
