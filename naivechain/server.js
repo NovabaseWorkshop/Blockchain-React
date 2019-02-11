@@ -79,9 +79,9 @@ var initHttpServer = http_port => {
     }
     res.send(JSON.stringify(response));
   });
-  app.get("/getBoxes/:date/:produto", (req, res) => {
+  app.get("/getBoxes/:date/:product", (req, res) => {
     var date = req.params.date;
-    var produto = req.params.produto;
+    var product = req.params.product;
     var response = {};
     var boxesIds = [];
     response["Farmer"] = [];
@@ -90,17 +90,19 @@ var initHttpServer = http_port => {
     for (var i = 1; i < Blockchain.retailerBranch.length; i++) {
       if (
         Blockchain.retailerBranch[i].data.date === date &&
-        Blockchain.retailerBranch[i].data.produto === produto
+        Blockchain.retailerBranch[i].data.product === product
       ) {
         boxesIds.push(Blockchain.retailerBranch[i].data.id);
         response["Retailer"].push(Blockchain.retailerBranch[i].data);
       }
     }
-    response["Farmer"].push(
-      findBoxesInBlockchain(Blockchain.farmerBranch, boxesIds)
+    response["Farmer"] = findBoxesInBlockchain(
+      Blockchain.farmerBranch,
+      boxesIds
     );
-    response["Cooperative"].push(
-      findBoxesInBlockchain(Blockchain.cooperativeBranch, boxesIds)
+    response["Cooperative"] = findBoxesInBlockchain(
+      Blockchain.cooperativeBranch,
+      boxesIds
     );
     res.send(JSON.stringify(response));
   });
@@ -275,7 +277,7 @@ var replaceChain = (newBlocks, branchType) => {
         Blockchain.farmerBranch = newBlocks;
         broadcast(responseLatestMsg());
       } else {
-        console.log("Received blockchain invalid");
+        console.log("Received farmer blockchain invalid");
       }
       break;
     case Constants.EntityType.COOPERATIVE:
@@ -286,18 +288,20 @@ var replaceChain = (newBlocks, branchType) => {
         Blockchain.cooperativeBranch = newBlocks;
         broadcast(responseLatestMsg());
       } else {
-        console.log("Received blockchain invalid");
+        console.log("Received cooperative blockchain invalid");
       }
       break;
     case Constants.EntityType.RETAILER:
-      if (newBlocks.length > Blockchain.retailer.length) {
+      console.log(Blockchain.retailerBranch.length);
+      console.log(newBlocks.length);
+      if (newBlocks.length > Blockchain.retailerBranch.length) {
         console.log(
           "Received blockchain is valid. Replacing current blockchain with received blockchain"
         );
         Blockchain.retailerBranch = newBlocks;
         broadcast(responseLatestMsg());
       } else {
-        console.log("Received blockchain invalid");
+        console.log("Received retailer blockchain invalid");
       }
       break;
   }
