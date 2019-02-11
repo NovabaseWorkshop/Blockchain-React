@@ -275,7 +275,7 @@ var replaceChain = (newBlocks, branchType) => {
         Blockchain.farmerBranch = newBlocks;
         broadcast(responseLatestMsg());
       } else {
-        console.log("Received blockchain invalid");
+        console.log("Received farmer blockchain invalid");
       }
       break;
     case Constants.EntityType.COOPERATIVE:
@@ -286,18 +286,20 @@ var replaceChain = (newBlocks, branchType) => {
         Blockchain.cooperativeBranch = newBlocks;
         broadcast(responseLatestMsg());
       } else {
-        console.log("Received blockchain invalid");
+        console.log("Received cooperative blockchain invalid");
       }
       break;
     case Constants.EntityType.RETAILER:
-      if (newBlocks.length > Blockchain.retailer.length) {
+      console.log(Blockchain.retailerBranch.length);
+      console.log(newBlocks.length);
+      if (newBlocks.length > Blockchain.retailerBranch.length) {
         console.log(
           "Received blockchain is valid. Replacing current blockchain with received blockchain"
         );
         Blockchain.retailerBranch = newBlocks;
         broadcast(responseLatestMsg());
       } else {
-        console.log("Received blockchain invalid");
+        console.log("Received retailer blockchain invalid");
       }
       break;
   }
