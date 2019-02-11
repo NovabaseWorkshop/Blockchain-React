@@ -108,8 +108,7 @@ class RetailerPurchase extends Component {
         weight: item.weight,
         price: item.price,
         date: this.state.date,
-        final_cost: item.final_cost_retailer,
-        date_array: []
+        final_cost: item.final_cost_retailer
       })
     });
 

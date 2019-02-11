@@ -8,6 +8,8 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   root: {
@@ -122,15 +124,52 @@ class RetailerPurchase extends Component {
         console.log(data);
         for (var key in data) {
           boxes = data[key].boxes;
-          if (boxes.length === 1) {
-            object[key] = {};
-          } else {
-            for (let i = 0; i < boxes.length; i++) {}
+          object[key] = {};
+
+          for (let j = 0; j < boxes.length; j++)
+            object[key][boxes[j].product] = [];
+
+          for (let i = 0; i < boxes.length; i++) {
+            object[key][boxes[i].product].push(boxes[i]);
           }
-          console.log(data[key].boxes[0]);
         }
-        this.setState({ avaliable_boxes: data });
+        console.log(object);
+        this.setState({ avaliable_boxes: object });
       });
+  }
+
+  getListItems() {
+    let object = this.state.avaliable_boxes;
+    let object2;
+    let boxes;
+    let items = [];
+
+    let total_weight = 0;
+    let total_price = 0;
+    let product;
+    let date;
+
+    console.log(object);
+    for (var key in object) {
+      object2 = object[key];
+      for (var key2 in object2) {
+        boxes = object2[key2];
+        for (let i = 0; i < boxes.length; i++) {
+          total_weight += Number(boxes[i].weight);
+          total_price += Number(boxes[i].price);
+
+          console.log(items);
+        }
+        items.push({
+          date: key,
+          weight: total_weight,
+          product: key2,
+          total_price: total_price
+        });
+      }
+    }
+
+    return items;
   }
 
   getFarmerData = () => {};
@@ -165,6 +204,7 @@ class RetailerPurchase extends Component {
     return (
       <div>
         <AppBar />
+
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -178,6 +218,7 @@ class RetailerPurchase extends Component {
                 <CustomTableCell align="right" />
               </TableRow>
             </TableHead>
+
             <TableBody>
               {/* {this.state.avaliable_boxes.map(row => (
                 <TableRow className={classes.row} key={row.id}>
