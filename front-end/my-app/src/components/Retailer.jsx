@@ -1,14 +1,8 @@
 import React, { Component } from "react";
 import AppBar from "./AppBar.jsx";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Selecter from "./SelecterFarmer.jsx";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import classNames from "classnames";
-import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -61,12 +55,6 @@ const styles2 = theme => ({
     }
   }
 });
-
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
-}
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -125,11 +113,23 @@ class RetailerPurchase extends Component {
   };
 
   componentDidMount() {
+    let boxes;
+    let object = {};
+
     fetch("http://localhost:3001/getBoxesByDate")
       .then(data => data.json())
       .then(data => {
+        console.log(data);
+        for (var key in data) {
+          boxes = data[key].boxes;
+          if (boxes.length === 1) {
+            object[key] = {};
+          } else {
+            for (let i = 0; i < boxes.length; i++) {}
+          }
+          console.log(data[key].boxes[0]);
+        }
         this.setState({ avaliable_boxes: data });
-        console.log(this.state.avaliable_boxes);
       });
   }
 
@@ -161,7 +161,6 @@ class RetailerPurchase extends Component {
 
   render() {
     const { classes } = this.props;
-    let product = this.getProductObject();
 
     return (
       <div>

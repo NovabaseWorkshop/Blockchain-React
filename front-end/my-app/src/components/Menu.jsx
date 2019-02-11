@@ -68,17 +68,20 @@ class MenuListComposition extends React.Component {
                 <ClickAwayListener onClickAway={this.handleClose}>
                   <MenuList>
                     <MenuItem component={Link} to="/farmer">
-                      Agricultor
+                      Farmer
                     </MenuItem>
                     <MenuItem
                       component={Link}
                       to="/cooperative"
                       onClick={this.handleClose}
                     >
-                      Cooperativa
+                      Cooperative
+                    </MenuItem>
+                    <MenuItem component={Link} to="/retailerpurchase">
+                      Retailer Purchase
                     </MenuItem>
                     <MenuItem component={Link} to="/retailer">
-                      Retalhista
+                      Retailer
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>

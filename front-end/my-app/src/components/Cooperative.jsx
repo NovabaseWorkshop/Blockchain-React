@@ -9,6 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import classNames from "classnames";
 import Button from "@material-ui/core/Button";
+import AlertDialogSlide from "./AlertDialogSlide.jsx";
 
 const styles = theme => ({
   root: {
@@ -20,7 +21,8 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
     marginBottom: "20px",
     elevation: 0,
-    square: true
+    square: true,
+    marginTop: "40px"
   },
   button: {
     margin: theme.spacing.unit
@@ -38,6 +40,12 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200
+  },
+  div: {
+    textAlign: "center"
+  },
+  inputs: {
+    marginTop: "70px"
   }
 });
 
@@ -54,14 +62,20 @@ class Cooperative extends Component {
       date: "2018-2-14",
       boxes_sold: [],
       item: {},
-      margin: null
+      margin: "",
+      open: false,
+      avaliable_boxes: []
     };
   }
 
   submitData = item => {
-    var min = 1;
-    var max = 1000000000;
-    var rand = parseInt(min + Math.random() * (max - min));
+    var array = this.state.boxes_sold;
+
+    var index = array.indexOf(item);
+    console.log(index);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
 
     fetch("http://localhost:3001/cooperativeMineBlock", {
       method: "POST",
@@ -79,7 +93,15 @@ class Cooperative extends Component {
         transport_cost: this.state.transport_cost,
         final_cost_retailer: this.getFinalPrice(item)
       })
-    });
+    }).then(
+      this.setState({
+        product: "",
+        transport_cost: "",
+        margin: "",
+        open: true,
+        boxes_sold: array
+      })
+    );
   };
 
   componentDidMount() {
@@ -108,7 +130,14 @@ class Cooperative extends Component {
       }
     }
   }
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
 
+  handleClose = () => {
+    if (this.props.value === "error") window.location.reload();
+    this.setState({ open: false });
+  };
   getFinalPrice(item) {
     let margin = this.state.margin / 100 + 1;
     let final_cost =
@@ -117,7 +146,7 @@ class Cooperative extends Component {
         Number(this.state.transport_cost)) *
       margin;
 
-    return final_cost;
+    return Math.round(final_cost);
   }
 
   getTotalBoxCost(item) {
@@ -132,113 +161,129 @@ class Cooperative extends Component {
     return (
       <div>
         <AppBar />
-        <h1 style={{ color: "black", marginRight: "30px" }}>
-          Cooperative: Product Purchase
-        </h1>
+        {this.state.open ? (
+          <AlertDialogSlide
+            value="coop"
+            handleClickOpen={this.handleClickOpen}
+            handleClose={this.handleClose}
+          />
+        ) : null}
+        <h1 className={classes.div}>Cooperative: Product Purchase</h1>
         <Grid
           container
           direction="row"
           justify="space-evenly"
           alignItems="center"
+          className={classes.inputs}
         >
           <Grid item>
-            <Paper className={classes.paper}>
-              <Selecter
-                name="product"
-                handleChange={this.myHandlerInput}
-                selectedProduct={this.state.product}
-                description="BoxID"
-                items={this.state.boxes_sold}
-              />
-            </Paper>
+            <Selecter
+              name="product"
+              handleChange={this.myHandlerInput}
+              selectedProduct={this.state.product}
+              description="BoxID"
+              items={this.state.boxes_sold}
+            />
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              <TextField
-                label="Deliever Cost"
-                name="transport_cost"
-                onChange={this.myHandlerInput}
-                id="simple-start-adornment"
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">€</InputAdornment>
-                  )
-                }}
-              />
-            </Paper>
+            <TextField
+              value={this.state.transport_cost}
+              label="Deliever Cost"
+              name="transport_cost"
+              onChange={this.myHandlerInput}
+              id="simple-start-adornment"
+              className={classNames(classes.margin, classes.textField)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">€</InputAdornment>
+                )
+              }}
+            />
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              <TextField
-                label="Margin"
-                id="simple-start-adornment"
-                name="margin"
-                onChange={this.myHandlerInput}
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">%</InputAdornment>
-                  )
-                }}
-              />
-            </Paper>
+            <TextField
+              value={this.state.margin}
+              label="Margin"
+              id="simple-start-adornment"
+              name="margin"
+              onChange={this.myHandlerInput}
+              className={classNames(classes.margin, classes.textField)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">%</InputAdornment>
+                )
+              }}
+            />
           </Grid>
 
           <Grid item>
-            <Paper className={classes.paper}>
-              <form className={classes.container} noValidate>
-                <TextField
-                  id="date"
-                  name="date"
-                  label="Date"
-                  onChange={this.myHandlerInput}
-                  type="date"
-                  defaultValue="2018-02-14"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </form>
-            </Paper>
+            <form className={classes.container} noValidate>
+              <TextField
+                id="date"
+                name="date"
+                label="Date"
+                onChange={this.myHandlerInput}
+                type="date"
+                defaultValue="2018-02-14"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
+            </form>
           </Grid>
           <Grid item />
         </Grid>
-        <Grid item>
-          Product name: <span />
-          <b>{product ? product.product : null}</b>
-          <br />
-          <br />
-          Total Box Cost:
-          <b>{product ? this.getTotalBoxCost(product) : null}€</b>
-          <br />
-          <br />
-          Cost kg: <b>{product ? product.price : null} €</b>
-          <br />
-          <br />
-          Weight: <b>{product ? product.weight : null} kg </b>
-          <br />
-          <br />
-          Final Cost for Retailer:
-          <b>
-            {this.state.margin && product ? this.getFinalPrice(product) : null}{" "}
-            €
-          </b>
-        </Grid>
 
-        <Grid item>
-          <div className={classes.paper}>
-            <Button
-              variant="contained"
-              date="name"
-              className={classes.button}
-              onClick={() => this.submitData(product)}
-            >
-              BUY
-            </Button>
-          </div>
-        </Grid>
+        {this.state.product &&
+        this.state.transport_cost &&
+        this.state.margin ? (
+          <Grid
+            container
+            direction="column"
+            justify="space-evenly"
+            alignItems="center"
+          >
+            <Grid item>
+              <Paper className={classes.paper}>
+                Product name: <span />
+                <b>{product ? product.product : null}</b>
+                <br />
+                <br />
+                Total Box Cost:
+                <b>{product ? this.getTotalBoxCost(product) : null}€</b>
+                <br />
+                <br />
+                Cost kg: <b>{product ? product.price : null} €</b>
+                <br />
+                <br />
+                Weight: <b>{product ? product.weight : null} kg </b>
+                <br />
+                <br />
+                Final Cost for Retailer:
+                <b>
+                  {this.state.margin && product
+                    ? this.getFinalPrice(product)
+                    : null}{" "}
+                  €
+                </b>
+              </Paper>
+            </Grid>
+
+            <Grid item>
+              <div>
+                <Button
+                  variant="contained"
+                  date="name"
+                  className={classes.button}
+                  onClick={() => this.submitData(product)}
+                >
+                  BUY
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
+        ) : null}
       </div>
     );
   }

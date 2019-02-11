@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import AppBar from "./AppBar.jsx";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Selecter from "./SelecterFarmer.jsx";
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import classNames from "classnames";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -62,20 +58,6 @@ const styles2 = theme => ({
   }
 });
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9)
-];
-
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -112,7 +94,6 @@ class RetailerPurchase extends Component {
     if (index > -1) {
       array.splice(index, 1);
     }
-    this.setState({ avaliable_boxes: array });
 
     console.log("maria: " + item);
     fetch("http://localhost:3001/retailerMineBlock", {
@@ -127,9 +108,12 @@ class RetailerPurchase extends Component {
         weight: item.weight,
         price: item.price,
         date: this.state.date,
-        final_cost: item.final_cost_retailer
+        final_cost: item.final_cost_retailer,
+        date_array: []
       })
     });
+
+    this.setState({ avaliable_boxes: array });
   };
 
   componentDidMount() {
@@ -169,7 +153,6 @@ class RetailerPurchase extends Component {
 
   render() {
     const { classes } = this.props;
-    let product = this.getProductObject();
 
     return (
       <div>
