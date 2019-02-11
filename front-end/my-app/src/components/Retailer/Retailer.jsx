@@ -10,6 +10,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
   root: {
@@ -79,7 +82,7 @@ class RetailerPurchase extends Component {
       price: "",
       id: -1,
       date: "2018-2-14",
-      avaliable_boxes: {},
+      avaliable_boxes: [],
       item: {},
       margin: null,
       disabled: false
@@ -134,12 +137,12 @@ class RetailerPurchase extends Component {
           }
         }
         console.log(object);
-        this.setState({ avaliable_boxes: object });
+        this.setState({ avaliable_boxes: this.getListItems(object) });
       });
   }
 
-  getListItems() {
-    let object = this.state.avaliable_boxes;
+  getListItems(fullist) {
+    let object = fullist;
     let object2;
     let boxes;
     let items = [];
@@ -156,9 +159,8 @@ class RetailerPurchase extends Component {
         boxes = object2[key2];
         for (let i = 0; i < boxes.length; i++) {
           total_weight += Number(boxes[i].weight);
-          total_price += Number(boxes[i].price);
-
-          console.log(items);
+          let aux = boxes[i].weight * boxes[i].price;
+          total_price += Number(aux);
         }
         items.push({
           date: key,
@@ -166,9 +168,10 @@ class RetailerPurchase extends Component {
           product: key2,
           total_price: total_price
         });
+        total_weight = 0;
+        total_price = 0;
       }
     }
-
     return items;
   }
 
@@ -200,16 +203,15 @@ class RetailerPurchase extends Component {
 
   render() {
     const { classes } = this.props;
-
     return (
       <div>
         <AppBar />
-
+        {this.getListItems()}
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <CustomTableCell>Data </CustomTableCell>
+                <CustomTableCell>Date </CustomTableCell>
 
                 <CustomTableCell align="right">Product</CustomTableCell>
                 <CustomTableCell align="right">Total Weight/kg</CustomTableCell>
@@ -220,48 +222,38 @@ class RetailerPurchase extends Component {
             </TableHead>
 
             <TableBody>
-              {/* {this.state.avaliable_boxes.map(row => (
-                <TableRow className={classes.row} key={row.id}>
-                  <CustomTableCell component="th" scope="row">
-                    {row.id}
-                  </CustomTableCell>
-                  <CustomTableCell align="right">{row.product}</CustomTableCell>
-                  <CustomTableCell align="right">{row.price}</CustomTableCell>
-                  <CustomTableCell align="right">{row.weight}</CustomTableCell>
-                  <CustomTableCell align="right">
-                    {row.final_cost_retailer}
-                  </CustomTableCell>
+              {this.state.avaliable_boxes
+                ? this.state.avaliable_boxes.map(row => (
+                    <TableRow className={classes.row} key={Math.random()}>
+                      <CustomTableCell component="th" scope="row">
+                        {row.date}
+                      </CustomTableCell>
+                      <CustomTableCell align="right">
+                        {row.product}
+                      </CustomTableCell>
+                      <CustomTableCell align="right">
+                        {row.weight}
+                      </CustomTableCell>
+                      <CustomTableCell align="right">
+                        {row.total_price}
+                      </CustomTableCell>
+                      <CustomTableCell align="right">
+                        {row.final_cost_retailer}
+                      </CustomTableCell>
 
-                  <CustomTableCell align="right">
-                    <form className={classes.container} noValidate>
-                      <TextField
-                        id="date"
-                        name="date"
-                        label="Date"
-                        onChange={this.myHandlerInput}
-                        type="date"
-                        defaultValue="2018-02-14"
-                        className={classes.textField}
-                        InputLabelProps={{
-                          shrink: true
-                        }}
-                      />
-                    </form>
-                  </CustomTableCell>
-
-                  <CustomTableCell align="right">
-                    <Button
-                      variant="contained"
-                      date="name"
-                      className={classes.button}
-                      onClick={() => this.submitData(row)}
-                      {...(this.state.disabled ? "disabled" : null)}
-                    >
-                      BUY
-                    </Button>
-                  </CustomTableCell>
-                </TableRow>
-              ))} */}
+                      <CustomTableCell align="right">
+                        <Fab
+                          color="default"
+                          aria-label="Add"
+                          className={classes.fab}
+                          onClick={() => alert("maumau")}
+                        >
+                          <AddIcon />
+                        </Fab>
+                      </CustomTableCell>
+                    </TableRow>
+                  ))
+                : null}
             </TableBody>
           </Table>
         </Paper>

@@ -83,6 +83,9 @@ class MenuListComposition extends React.Component {
                     <MenuItem component={Link} to="/retailer">
                       Retailer
                     </MenuItem>
+                    <MenuItem component={Link} to="/productTimeLine">
+                      Product Timeline
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

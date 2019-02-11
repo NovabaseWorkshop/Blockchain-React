@@ -157,8 +157,6 @@ class RetailerPurchase extends Component {
         for (let i = 0; i < boxes.length; i++) {
           total_weight += Number(boxes[i].weight);
           total_price += Number(boxes[i].price);
-
-          console.log(items);
         }
         items.push({
           date: key,
@@ -168,8 +166,7 @@ class RetailerPurchase extends Component {
         });
       }
     }
-
-    return items;
+    console.log("s" + items);
   }
 
   getFarmerData = () => {};
@@ -204,7 +201,7 @@ class RetailerPurchase extends Component {
     return (
       <div>
         <AppBar />
-
+        {this.getListItems()}
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
