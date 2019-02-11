@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import AppBar from "./AppBar.jsx";
+import AppBar from "../AppBar.jsx";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Selecter from "./SelecterFarmer.jsx";
+import Selecter from "../Selecter.jsx";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import classNames from "classnames";
 import Button from "@material-ui/core/Button";
-import AlertDialogSlide from "./AlertDialogSlide.jsx";
+import AlertDialogSlide from "../AlertDialogSlide.jsx";
 
 const styles = theme => ({
   root: {
