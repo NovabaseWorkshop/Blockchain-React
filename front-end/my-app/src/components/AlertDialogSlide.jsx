@@ -11,17 +11,17 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-function Message(value) {
+function Message(value, productId) {
   if (value === "farm")
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        Product registered.
+        Product with id {productId} registered.
       </DialogContentText>
     );
   else if (value === "coop")
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        Product purchased.
+        Product with id {productId} purchased.
       </DialogContentText>
     );
   else if (value === "forgery")
@@ -78,7 +78,9 @@ class AlertDialogSlide extends React.Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">{"Success"}</DialogTitle>
-          <DialogContent>{Message(this.props.value)}</DialogContent>
+          <DialogContent>
+            {Message(this.props.value, this.props.productId)}
+          </DialogContent>
           <DialogActions>
             <Button onClick={this.props.handleClose} color="default">
               Ok
