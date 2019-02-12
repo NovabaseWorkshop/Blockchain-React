@@ -132,6 +132,7 @@ class RetailerPurchase extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.item);
     let url = "http://localhost:3001/getBoxes/2018-2-14/Oranges";
     fetch(url)
       .then(data => data.json())
