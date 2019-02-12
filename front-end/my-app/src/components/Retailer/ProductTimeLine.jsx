@@ -14,6 +14,7 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+
 const styles = theme => ({
   root: {
     width: "90%"
@@ -58,18 +59,20 @@ function getStepContent(step, boxes) {
             <TableHead>
               <TableRow>
                 <TableCell>Box Id </TableCell>
+                <TableCell>Cost/kg</TableCell>
                 <TableCell>Transportaion Cost €</TableCell>
                 <TableCell>Weight Kg</TableCell>
-                <TableCell>Price €/KG</TableCell>
+                <TableCell>Date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {boxes.Farmer.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.price}</TableCell>
                   <TableCell>{row.transport_cost}</TableCell>
                   <TableCell>{row.weight}</TableCell>
-                  <TableCell>{row.price}</TableCell>
+                  <TableCell>{row.date}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -84,8 +87,9 @@ function getStepContent(step, boxes) {
               <TableRow>
                 <TableCell>Box Id </TableCell>
                 <TableCell>Deliver Cost €</TableCell>
-                <TableCell>Margin Kg</TableCell>
+                <TableCell>Margin €</TableCell>
                 <TableCell>Final Price €</TableCell>
+                <TableCell>Date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -95,6 +99,7 @@ function getStepContent(step, boxes) {
                   <TableCell>{row.transport_cost}</TableCell>
                   <TableCell>{row.margin}</TableCell>
                   <TableCell>{row.final_cost_retailer}</TableCell>
+                  <TableCell>{row.date}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -103,14 +108,30 @@ function getStepContent(step, boxes) {
       );
     case 2:
       return (
-        <div>
-          {boxes.Retailer.map(box => (
-            <h1>
-              {box.id} | {box.product} | {box.final_cost} |{box.weight} |{" "}
-              {box.price}
-            </h1>
-          ))}
-        </div>
+        <Paper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Box Id </TableCell>
+                <TableCell>Cost/kg </TableCell>
+                <TableCell>Weight Kg</TableCell>
+                <TableCell>Final Price €</TableCell>
+                <TableCell>Date</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {boxes.Retailer.map(row => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.price}</TableCell>
+                  <TableCell>{row.weight}</TableCell>
+                  <TableCell>{row.final_cost}</TableCell>
+                  <TableCell>{row.date}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
       );
     default:
       return "Unknown step";
@@ -132,7 +153,7 @@ class RetailerPurchase extends Component {
   }
 
   componentDidMount() {
-    let url = "http://localhost:3001/getBoxes/2018-2-14/Oranges";
+    let url = "http://localhost:3001/getBoxes/2018-2-14/Potatoes";
     fetch(url)
       .then(data => data.json())
       .then(data => {
@@ -174,6 +195,9 @@ class RetailerPurchase extends Component {
     return (
       <div>
         <AppBar />
+        <Typography variant="h3" gutterBottom>
+          El Produto
+        </Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((label, index) => (
             <Step key={label}>
