@@ -14,6 +14,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
@@ -51,6 +52,16 @@ const styles2 = theme => ({
     }
   }
 });
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -93,10 +104,15 @@ function Message(props) {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>BoxId</TableCell>
-                <TableCell align="right">Product</TableCell>
+                <CustomTableCell>
+                  <b>BoxId</b>
+                </CustomTableCell>
+                <CustomTableCell align="right">
+                  {" "}
+                  <b>Product</b>
+                </CustomTableCell>
 
-                <TableCell align="right">Timeline</TableCell>
+                <CustomTableCell align="right" />
               </TableRow>
             </TableHead>
             <TableBody>
@@ -113,13 +129,14 @@ function Message(props) {
                       date="name"
                       className={classes.button}
                       component={Link}
+                      color="secondary"
                       to={{
                         pathname: "/productTimeLine/" + row.id,
                         date: row.date,
                         id: row.id
                       }}
                     >
-                      Details
+                      <Typography color="primary">Details</Typography>
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -170,7 +187,7 @@ class AlertDialogSlide extends React.Component {
           <DialogTitle id="alert-dialog-slide-title">{"Success"}</DialogTitle>
           <DialogContent>{Message(this.props)}</DialogContent>
           <DialogActions>
-            <Button onClick={this.props.handleClose} color="default">
+            <Button onClick={this.props.handleClose} color="primary">
               Ok
             </Button>
           </DialogActions>

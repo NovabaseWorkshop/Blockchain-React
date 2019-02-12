@@ -16,6 +16,16 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Grid from "@material-ui/core/Grid";
 
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
+
 const styles = theme => ({
   root: {
     width: "90%"
@@ -44,11 +54,11 @@ function getStepContent(step, boxes) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Box Id </TableCell>
-                <TableCell>Cost/kg</TableCell>
-                <TableCell>Transportaion Cost €</TableCell>
-                <TableCell>Weight Kg</TableCell>
-                <TableCell>Date</TableCell>
+                <CustomTableCell>Box Id </CustomTableCell>
+                <CustomTableCell>Cost/kg</CustomTableCell>
+                <CustomTableCell>Transportaion Cost €</CustomTableCell>
+                <CustomTableCell>Weight Kg</CustomTableCell>
+                <CustomTableCell>Date</CustomTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -71,11 +81,11 @@ function getStepContent(step, boxes) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Box Id </TableCell>
-                <TableCell>Deliver Cost €</TableCell>
-                <TableCell>Margin €</TableCell>
-                <TableCell>Final Price €</TableCell>
-                <TableCell>Date</TableCell>
+                <CustomTableCell>Box Id </CustomTableCell>
+                <CustomTableCell>Deliver Cost €</CustomTableCell>
+                <CustomTableCell>Margin €</CustomTableCell>
+                <CustomTableCell>Final Price €</CustomTableCell>
+                <CustomTableCell>Date</CustomTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -98,11 +108,11 @@ function getStepContent(step, boxes) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Box Id </TableCell>
-                <TableCell>Cost/kg </TableCell>
-                <TableCell>Weight Kg</TableCell>
-                <TableCell>Final Price €</TableCell>
-                <TableCell>Date</TableCell>
+                <CustomTableCell>Box Id </CustomTableCell>
+                <CustomTableCell>Cost/kg </CustomTableCell>
+                <CustomTableCell>Weight Kg</CustomTableCell>
+                <CustomTableCell>Final Price €</CustomTableCell>
+                <CustomTableCell>Date</CustomTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

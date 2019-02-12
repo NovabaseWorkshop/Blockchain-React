@@ -201,7 +201,6 @@ class RetailerPurchase extends Component {
     return (
       <div>
         <AppBar />
-        {this.getListItems()}
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
