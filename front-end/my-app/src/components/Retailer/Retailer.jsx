@@ -150,8 +150,6 @@ class RetailerPurchase extends Component {
 
     let total_weight = 0;
     let total_price = 0;
-    let product;
-    let date;
 
     console.log(object);
     for (var key in object) {
@@ -204,6 +202,10 @@ class RetailerPurchase extends Component {
 
   render() {
     const { classes } = this.props;
+    const newTo = {
+      pathname: "/category/595212758daa6810cbba4104",
+      param1: "Par1"
+    };
     return (
       <div>
         <AppBar />
@@ -249,9 +251,15 @@ class RetailerPurchase extends Component {
                           aria-label="Add"
                           className={classes.fab}
                           component={Link}
-                          to={
-                            "/productTimeLine/" + row.date + "/" + row.product
-                          }
+                          to={{
+                            pathname:
+                              "/productTimeLine/" +
+                              row.date +
+                              "/" +
+                              row.product,
+                            product: row.product,
+                            date: row.date
+                          }}
                           item={row}
                         >
                           <AddIcon />

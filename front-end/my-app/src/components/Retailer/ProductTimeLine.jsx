@@ -14,22 +14,9 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Grid from "@material-ui/core/Grid";
+
 const styles = theme => ({
-  root: {
-    width: "90%"
-  },
-  button: {
-    marginTop: theme.spacing.unit,
-    marginRight: theme.spacing.unit
-  },
-  actionsContainer: {
-    marginBottom: theme.spacing.unit * 2
-  },
-  resetContainer: {
-    padding: theme.spacing.unit * 3
-  }
-});
-const tableStyles = theme => ({
   root: {
     width: "90%"
   },
@@ -58,18 +45,20 @@ function getStepContent(step, boxes) {
             <TableHead>
               <TableRow>
                 <TableCell>Box Id </TableCell>
+                <TableCell>Cost/kg</TableCell>
                 <TableCell>Transportaion Cost €</TableCell>
                 <TableCell>Weight Kg</TableCell>
-                <TableCell>Price €/KG</TableCell>
+                <TableCell>Date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {boxes.Farmer.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.price}</TableCell>
                   <TableCell>{row.transport_cost}</TableCell>
                   <TableCell>{row.weight}</TableCell>
-                  <TableCell>{row.price}</TableCell>
+                  <TableCell>{row.date}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -84,8 +73,9 @@ function getStepContent(step, boxes) {
               <TableRow>
                 <TableCell>Box Id </TableCell>
                 <TableCell>Deliver Cost €</TableCell>
-                <TableCell>Margin Kg</TableCell>
+                <TableCell>Margin €</TableCell>
                 <TableCell>Final Price €</TableCell>
+                <TableCell>Date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -95,6 +85,7 @@ function getStepContent(step, boxes) {
                   <TableCell>{row.transport_cost}</TableCell>
                   <TableCell>{row.margin}</TableCell>
                   <TableCell>{row.final_cost_retailer}</TableCell>
+                  <TableCell>{row.date}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -103,14 +94,30 @@ function getStepContent(step, boxes) {
       );
     case 2:
       return (
-        <div>
-          {boxes.Retailer.map(box => (
-            <h1>
-              {box.id} | {box.product} | {box.final_cost} |{box.weight} |{" "}
-              {box.price}
-            </h1>
-          ))}
-        </div>
+        <Paper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Box Id </TableCell>
+                <TableCell>Cost/kg </TableCell>
+                <TableCell>Weight Kg</TableCell>
+                <TableCell>Final Price €</TableCell>
+                <TableCell>Date</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {boxes.Retailer.map(row => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.price}</TableCell>
+                  <TableCell>{row.weight}</TableCell>
+                  <TableCell>{row.final_cost}</TableCell>
+                  <TableCell>{row.date}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
       );
     default:
       return "Unknown step";
@@ -132,14 +139,19 @@ class RetailerPurchase extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.item);
-    let url = "http://localhost:3001/getBoxes/2018-2-14/Oranges";
+    let params = new URL(document.location).searchParams;
+    let name = params.get("date");
+
+    let url =
+      "http://localhost:3001/getBoxes/" +
+      this.props.location.date +
+      "/" +
+      this.props.location.product;
+    console.log(this.props.location.date);
+    console.log(this.props.location.product);
     fetch(url)
       .then(data => data.json())
       .then(data => {
-        console.log(data);
-        for (var key in data) {
-        }
         this.setState({ data: data });
       });
   }
@@ -171,20 +183,24 @@ class RetailerPurchase extends Component {
     const { classes } = this.props;
     const steps = getSteps();
     const { activeStep } = this.state;
-    console.log(this.state.data);
+
     return (
-      <div>
+      <Grid>
         <AppBar />
+        <Typography variant="h3" gutterBottom>
+          {this.props.location.product}
+        </Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((label, index) => (
             <Step key={label}>
-              <StepLabel onClick={() => this.handleClick(index)}>
+              <StepLabel
+                style={{ cursor: "pointer" }}
+                onClick={() => this.handleClick(index)}
+              >
                 {label}
               </StepLabel>
               <StepContent>
-                <Typography>
-                  {getStepContent(index, this.state.data)}
-                </Typography>
+                {getStepContent(index, this.state.data)}
               </StepContent>
             </Step>
           ))}
@@ -197,7 +213,7 @@ class RetailerPurchase extends Component {
             </Button>
           </Paper>
         )}
-      </div>
+      </Grid>
     );
   }
 }
@@ -206,4 +222,4 @@ RetailerPurchase.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, tableStyles)(RetailerPurchase);
+export default withStyles(styles)(RetailerPurchase);
