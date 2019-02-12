@@ -183,7 +183,10 @@ class RetailerPurchase extends Component {
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((label, index) => (
             <Step key={label}>
-              <StepLabel onClick={() => this.handleClick(index)}>
+              <StepLabel
+                style={{ cursor: "pointer" }}
+                onClick={() => this.handleClick(index)}
+              >
                 {label}
               </StepLabel>
               <StepContent>
