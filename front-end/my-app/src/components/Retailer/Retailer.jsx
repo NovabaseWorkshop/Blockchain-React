@@ -94,34 +94,6 @@ class RetailerPurchase extends Component {
     };
   }
 
-  submitData = item => {
-    let array = this.state.avaliable_boxes;
-
-    var index = array.indexOf(item);
-    console.log(index);
-    if (index > -1) {
-      array.splice(index, 1);
-    }
-    this.setState({ avaliable_boxes: array });
-
-    console.log("maria: " + item);
-    fetch("http://localhost:3001/retailerMineBlock", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: item.id,
-        product: item.product,
-        weight: item.weight,
-        price: item.price,
-        date: this.state.date,
-        final_cost: item.final_cost_retailer
-      })
-    });
-  };
-
   componentDidMount() {
     let boxes;
     let object = {};
@@ -147,10 +119,6 @@ class RetailerPurchase extends Component {
           object: object
         });
       });
-  }
-
-  expand(item) {
-    this.setState({ open: true });
   }
 
   getListItems(fullist) {

@@ -10,6 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import classNames from "classnames";
 import Button from "@material-ui/core/Button";
 import AlertDialogSlide from "../AlertDialogSlide.jsx";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
@@ -292,7 +293,7 @@ class Cooperative extends Component {
                       : true
                   }
                 >
-                  BUY
+                  <Typography color="primary">BUY</Typography>
                 </Button>
               </div>
             </Grid>

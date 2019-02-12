@@ -7,7 +7,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import Paper from "@material-ui/core/Paper";
-import classNames from "classnames";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -25,6 +24,31 @@ const styles = theme => ({
   table: {
     minWidth: 400,
     maxWidth: 800
+  },
+  row: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.background.default
+    }
+  },
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white
+  }
+});
+
+const styles2 = theme => ({
+  root: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 3,
+    overflowX: "auto"
+  },
+  table: {
+    minWidth: 700
+  },
+  row: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.background.default
+    }
   }
 });
 
@@ -90,10 +114,9 @@ function Message(props) {
                       className={classes.button}
                       component={Link}
                       to={{
-                        pathname:
-                          "/productTimeLine/" + row.date + "/" + row.product,
-                        product: row.product,
-                        date: row.date
+                        pathname: "/productTimeLine/" + row.id,
+                        date: row.date,
+                        id: row.id
                       }}
                     >
                       Details
