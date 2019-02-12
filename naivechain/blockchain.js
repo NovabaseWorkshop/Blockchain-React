@@ -92,11 +92,6 @@ var isValidChain = blockchainToValidate => {
   return true;
 };
 
-var getLatestFarmerBlock = () => farmerBranch[farmerBranch.length - 1];
-var getLatestCooperativeBlock = () =>
-  cooperativeBranch[cooperativeBranch.length - 1];
-var getLatestRetailerBlock = () => retailerBranch[retailerBranch.length - 1];
-
 var calculateHash = (index, previousHash, timestamp, data) => {
   return CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
 };
@@ -132,9 +127,6 @@ module.exports = {
   getGenesisBlock,
   isValidChain,
   calculateHash,
-  getLatestFarmerBlock,
-  getLatestCooperativeBlock,
-  getLatestRetailerBlock,
   generateNextBlock,
   addBlock,
   farmerBranch,
