@@ -23,41 +23,8 @@ var getGenesisBlock = () => {
     "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7"
   );
 };
-var addBlock = (type, newBlock) => {
-  switch (type) {
-    case Constants.EntityType.FARMER:
-      if (isValidNewBlock(newBlock, getLatestFarmerBlock())) {
-        farmerBranch.push(newBlock);
-      }
-      break;
-    case Constants.EntityType.COOPERATIVE:
-      if (isValidNewBlock(newBlock, getLatestCooperativeBlock())) {
-        cooperativeBranch.push(newBlock);
-      }
-      break;
-    case Constants.EntityType.RETAILER:
-      if (isValidNewBlock(newBlock, getLatestRetailerBlock())) {
-        retailerBranch.push(newBlock);
-      }
-      break;
-    default:
-  }
-};
-var generateNextBlock = (type, blockData) => {
-  var previousBlock;
 
-  switch (type) {
-    case Constants.EntityType.FARMER:
-      previousBlock = getLatestFarmerBlock();
-      break;
-    case Constants.EntityType.COOPERATIVE:
-      previousBlock = getLatestCooperativeBlock();
-      break;
-    case Constants.EntityType.RETAILER:
-      previousBlock = getLatestRetailerBlock();
-      break;
-    default:
-  }
+var generateNextBlock = (type, blockData, previousBlock) => {
   var nextIndex = previousBlock.index + 1;
   var nextTimestamp = new Date().getTime() / 1000;
   var nextHash = calculateHash(
@@ -128,8 +95,8 @@ module.exports = {
   isValidChain,
   calculateHash,
   generateNextBlock,
-  addBlock,
   farmerBranch,
   cooperativeBranch,
-  retailerBranch
+  retailerBranch,
+  isValidNewBlock
 };

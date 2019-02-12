@@ -30,33 +30,45 @@ var initHttpServer = http_port => {
   app.post("/farmerMineBlock", (req, res) => {
     var newBlock = Blockchain.generateNextBlock(
       Constants.EntityType.FARMER,
-      req.body
+      req.body,
+      getLatestFarmerBlock()
     );
-    Blockchain.addBlock(Constants.EntityType.FARMER, newBlock);
-    var obj = responseLatestMsg(Constants.EntityType.FARMER);
-    broadcast(obj);
-    console.log("block added: " + JSON.stringify(newBlock));
+    if (Blockchain.isValidNewBlock(newBlock, getLatestFarmerBlock())) {
+      Blockchain.farmerBranch.push(newBlock);
+      var obj = responseLatestMsg(Constants.EntityType.FARMER);
+      broadcast(obj);
+      console.log("block added: " + JSON.stringify(newBlock));
+    }
+
     res.send();
   });
   app.post("/cooperativeMineBlock", (req, res) => {
     console.log(Constants);
     var newBlock = Blockchain.generateNextBlock(
       Constants.EntityType.COOPERATIVE,
-      req.body
+      req.body,
+      getLatestCooperativeBlock()
     );
-    Blockchain.addBlock(Constants.EntityType.COOPERATIVE, newBlock);
-    broadcast(responseLatestMsg(Constants.EntityType.COOPERATIVE));
-    console.log("block added: " + JSON.stringify(newBlock));
+    if (Blockchain.isValidNewBlock(newBlock, getLatestCooperativeBlock())) {
+      Blockchain.cooperativeBranch.push(newBlock);
+      broadcast(responseLatestMsg(Constants.EntityType.COOPERATIVE));
+      console.log("block added: " + JSON.stringify(newBlock));
+    }
+
     res.send();
   });
   app.post("/retailerMineBlock", (req, res) => {
     var newBlock = Blockchain.generateNextBlock(
       Constants.EntityType.RETAILER,
-      req.body
+      req.body,
+      getLatestRetailerBlock()
     );
-    Blockchain.addBlock(Constants.EntityType.RETAILER, newBlock);
-    broadcast(responseLatestMsg(Constants.EntityType.RETAILER));
-    console.log("block added: " + JSON.stringify(newBlock));
+    if (Blockchain.isValidNewBlock(newBlock, getLatestRetailerBlock())) {
+      Blockchain.retailerBranch.push(newBlock);
+      broadcast(responseLatestMsg(Constants.EntityType.RETAILER));
+      console.log("block added: " + JSON.stringify(newBlock));
+    }
+
     res.send();
   });
   app.get("/peers", (req, res) => {
@@ -186,19 +198,12 @@ var initMessageHandler = ws => {
     console.log("message received");
     switch (message.type) {
       case Constants.MessageType.QUERY_LATEST:
-        console.log("Query latest");
-        console.log("state of naive chain");
-        console.log(responseLatestMsg());
         write(ws, responseLatestMsg());
         break;
       case Constants.MessageType.QUERY_ALL:
-        console.log("Query all");
         write(ws, responseChainMsg());
         break;
       case Constants.MessageType.RESPONSE_BLOCKCHAIN:
-        console.log("responde blockchain");
-        console.log("naivechain received");
-        console.log(message);
         handleBlockchainResponse(message);
         break;
     }
