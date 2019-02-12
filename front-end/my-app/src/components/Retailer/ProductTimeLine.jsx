@@ -14,23 +14,9 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
-  root: {
-    width: "90%"
-  },
-  button: {
-    marginTop: theme.spacing.unit,
-    marginRight: theme.spacing.unit
-  },
-  actionsContainer: {
-    marginBottom: theme.spacing.unit * 2
-  },
-  resetContainer: {
-    padding: theme.spacing.unit * 3
-  }
-});
-const tableStyles = theme => ({
   root: {
     width: "90%"
   },
@@ -157,9 +143,6 @@ class RetailerPurchase extends Component {
     fetch(url)
       .then(data => data.json())
       .then(data => {
-        console.log(data);
-        for (var key in data) {
-        }
         this.setState({ data: data });
       });
   }
@@ -191,9 +174,8 @@ class RetailerPurchase extends Component {
     const { classes } = this.props;
     const steps = getSteps();
     const { activeStep } = this.state;
-    console.log(this.state.data);
     return (
-      <div>
+      <Grid>
         <AppBar />
         <Typography variant="h3" gutterBottom>
           El Produto
@@ -205,9 +187,7 @@ class RetailerPurchase extends Component {
                 {label}
               </StepLabel>
               <StepContent>
-                <Typography>
-                  {getStepContent(index, this.state.data)}
-                </Typography>
+                {getStepContent(index, this.state.data)}
               </StepContent>
             </Step>
           ))}
@@ -220,7 +200,7 @@ class RetailerPurchase extends Component {
             </Button>
           </Paper>
         )}
-      </div>
+      </Grid>
     );
   }
 }
@@ -229,4 +209,4 @@ RetailerPurchase.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, tableStyles)(RetailerPurchase);
+export default withStyles(styles)(RetailerPurchase);
