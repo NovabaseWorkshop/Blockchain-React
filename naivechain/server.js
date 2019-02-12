@@ -106,6 +106,33 @@ var initHttpServer = http_port => {
     );
     res.send(JSON.stringify(response));
   });
+  app.get("/getBoxeTimeline/:id", (req, res) => {
+    var id = req.params.id;
+    var response = {};
+    response["Farmer"] = [];
+    response["Cooperative"] = [];
+    response["Retailer"] = [];
+    for (var i = 1; i < Blockchain.retailerBranch.length; i++) {
+      console.log(Blockchain.retailerBranch[i].data.id);
+      console.log(id);
+      if (Blockchain.retailerBranch[i].data.id == id) {
+        console.log("entrou");
+        response["Retailer"].push(Blockchain.retailerBranch[i].data);
+      }
+    }
+    for (var i = 1; i < Blockchain.cooperativeBranch.length; i++) {
+      if (Blockchain.retailerBranch[i].data.id == id) {
+        response["Cooperative"].push(Blockchain.cooperativeBranch[i].data);
+      }
+    }
+    for (var i = 1; i < Blockchain.farmerBranch.length; i++) {
+      if (Blockchain.farmerBranch[i].data.id == id) {
+        response["Farmer"].push(Blockchain.farmerBranch[i].data);
+      }
+    }
+
+    res.send(JSON.stringify(response));
+  });
   app.post("/addPeer", (req, res) => {
     connectToPeers([req.body.peer]);
     res.send();
