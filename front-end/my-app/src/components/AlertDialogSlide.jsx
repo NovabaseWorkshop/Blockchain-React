@@ -6,55 +6,114 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
+import Paper from "@material-ui/core/Paper";
+import classNames from "classnames";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import { withStyles } from "@material-ui/core";
+
+const styles = theme => ({
+  root: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 3,
+    overflowX: "auto"
+  },
+  table: {
+    minWidth: 400,
+    maxWidth: 800
+  }
+});
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-function Message(value) {
-  if (value === "farm")
+function getList(props) {
+  let object = props.object;
+  let array;
+  array = object[props.item.date][props.item.product];
+
+  console.log(props.object);
+  console.log(props.item);
+  console.log(array);
+  return array;
+}
+
+function Message(props) {
+  const { classes } = props;
+  if (props.value === "farm")
     return (
       <DialogContentText id="alert-dialog-slide-description">
         Product registered.
       </DialogContentText>
     );
-  else if (value === "coop")
+  else if (props.value === "coop")
     return (
       <DialogContentText id="alert-dialog-slide-description">
         Product purchased.
       </DialogContentText>
     );
-  else if (value === "forgery")
+  else if (props.value === "retailering") {
+    let list = getList(props);
+    console.log(list);
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        Vai ser apresentada uma assinatura aleatória da Base de Dados para
-        tentar forjar. É possivel calhar a sua assinatura, se assim for, pedimos
-        então que assine normalmente.
+        Click on a box to check timeline
         <br />
         <br />
-        Após o forjar da assinatura clique Submeter no fim da pagina.
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>BoxId</TableCell>
+                <TableCell align="right">Product</TableCell>
+
+                <TableCell align="right">Timeline</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {list.map(row => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell align="right">{row.product}</TableCell>
+
+                  <TableCell align="right">
+                    <Button
+                      variant="contained"
+                      date="name"
+                      className={classes.button}
+                    >
+                      Details
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+        {/* <div>
+            <Paper className>
+              <b>IdCaixa:</b> {row.product} <b>Product:</b> {row.id}{" "}
+              <Button variant="contained" date="name" onClick={""}>
+                TimeLine
+              </Button>
+            </Paper>
+            <br />
+          </div> */}
       </DialogContentText>
     );
-  else if (value === "final")
-    return (
-      <DialogContentText id="alert-dialog-slide-description">
-        Caso decida repetir o processo terá apenas que assinar 2 vezes.
-        <br />
-        <br />
-        <b>Obrigado</b> por nos ajudar a melhorar o algoritmo.
-      </DialogContentText>
-    );
-  else if (value === "error")
-    return (
-      <DialogContentText id="alert-dialog-slide-description">
-        Ocorreu um erro. Comece de novo.
-      </DialogContentText>
-    );
+  }
 }
 
 class AlertDialogSlide extends React.Component {
   state = {
-    open: true
+    open: true,
+    disabled: false
   };
 
   handleClickOpen = () => {
@@ -78,7 +137,7 @@ class AlertDialogSlide extends React.Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">{"Success"}</DialogTitle>
-          <DialogContent>{Message(this.props.value)}</DialogContent>
+          <DialogContent>{Message(this.props)}</DialogContent>
           <DialogActions>
             <Button onClick={this.props.handleClose} color="default">
               Ok
@@ -90,4 +149,4 @@ class AlertDialogSlide extends React.Component {
   }
 }
 
-export default AlertDialogSlide;
+export default withStyles(styles)(AlertDialogSlide);

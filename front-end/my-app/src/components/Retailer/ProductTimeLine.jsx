@@ -142,13 +142,8 @@ class RetailerPurchase extends Component {
     let params = new URL(document.location).searchParams;
     let name = params.get("date");
 
-    let url =
-      "http://localhost:3001/getBoxes/" +
-      this.props.location.date +
-      "/" +
-      this.props.location.product;
-    console.log(this.props.location.date);
-    console.log(this.props.location.product);
+    let url = "http://localhost:3001/getBoxeTimeline/" + this.props.location.id;
+
     fetch(url)
       .then(data => data.json())
       .then(data => {
@@ -187,32 +182,40 @@ class RetailerPurchase extends Component {
     return (
       <Grid>
         <AppBar />
-        <Typography variant="h3" gutterBottom>
-          {this.props.location.product}
-        </Typography>
-        <Stepper activeStep={activeStep} orientation="vertical">
-          {steps.map((label, index) => (
-            <Step key={label}>
-              <StepLabel
-                style={{ cursor: "pointer" }}
-                onClick={() => this.handleClick(index)}
-              >
-                {label}
-              </StepLabel>
-              <StepContent>
-                {getStepContent(index, this.state.data)}
-              </StepContent>
-            </Step>
-          ))}
-        </Stepper>
-        {activeStep === steps.length && (
-          <Paper square elevation={0} className={classes.resetContainer}>
-            <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button onClick={this.handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </Paper>
-        )}
+        <Grid containe direction="column">
+          <Grid item>
+            <Typography style={{ padding: 20 }} variant="h3">
+              {this.props.location.product}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Stepper activeStep={activeStep} orientation="vertical">
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepLabel
+                    style={{ cursor: "pointer" }}
+                    onClick={() => this.handleClick(index)}
+                  >
+                    {label}
+                  </StepLabel>
+                  <StepContent>
+                    {getStepContent(index, this.state.data)}
+                  </StepContent>
+                </Step>
+              ))}
+            </Stepper>
+            {activeStep === steps.length && (
+              <Paper square elevation={0} className={classes.resetContainer}>
+                <Typography>
+                  All steps completed - you&apos;re finished
+                </Typography>
+                <Button onClick={this.handleReset} className={classes.button}>
+                  Reset
+                </Button>
+              </Paper>
+            )}
+          </Grid>
+        </Grid>
       </Grid>
     );
   }

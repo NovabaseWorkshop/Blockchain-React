@@ -16,7 +16,10 @@ class App extends Component {
           <Route path="/farmer" component={Home} />
           <Route path="/cooperative" component={Cooperative} />
           <Route path="/retailerpurchase" component={RetailerPurchase} />
-          <Route path="/productTimeLine" component={ProductTimeLine} />
+          <Route
+            path="/productTimeLine/:date/:product"
+            component={ProductTimeLine}
+          />
           <Route path="/retailer" component={Retailer} />
         </Switch>
       </Router>

@@ -14,6 +14,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Icon from "@material-ui/core/Icon";
 import { Link } from "react-router-dom";
+import AlertDialogSlide from "../AlertDialogSlide.jsx";
 
 const styles = theme => ({
   root: {
@@ -86,7 +87,10 @@ class RetailerPurchase extends Component {
       avaliable_boxes: [],
       item: {},
       margin: null,
-      disabled: false
+      disabled: false,
+      open: false,
+      detail: [],
+      object: {}
     };
   }
 
@@ -138,8 +142,15 @@ class RetailerPurchase extends Component {
           }
         }
         console.log(object);
-        this.setState({ avaliable_boxes: this.getListItems(object) });
+        this.setState({
+          avaliable_boxes: this.getListItems(object),
+          object: object
+        });
       });
+  }
+
+  expand(item) {
+    this.setState({ open: true });
   }
 
   getListItems(fullist) {
@@ -171,6 +182,7 @@ class RetailerPurchase extends Component {
         total_price = 0;
       }
     }
+    console.log(items);
     return items;
   }
 
@@ -200,6 +212,15 @@ class RetailerPurchase extends Component {
     return final_cost;
   }
 
+  handleClickOpen = item => {
+    this.setState({ open: true, item: item });
+  };
+
+  handleClose = () => {
+    if (this.props.value === "error") window.location.reload();
+    this.setState({ open: false });
+  };
+
   render() {
     const { classes } = this.props;
     const newTo = {
@@ -209,6 +230,15 @@ class RetailerPurchase extends Component {
     return (
       <div>
         <AppBar />
+        {this.state.open ? (
+          <AlertDialogSlide
+            value="retailering"
+            item={this.state.item}
+            object={this.state.object}
+            handleClickOpen={this.handleClickOpen}
+            handleClose={this.handleClose}
+          />
+        ) : null}
         {this.getListItems()}
         <Paper className={classes.root}>
           <Table className={classes.table}>
@@ -250,17 +280,18 @@ class RetailerPurchase extends Component {
                           color="default"
                           aria-label="Add"
                           className={classes.fab}
-                          component={Link}
-                          to={{
-                            pathname:
-                              "/productTimeLine/" +
-                              row.date +
-                              "/" +
-                              row.product,
-                            product: row.product,
-                            date: row.date
-                          }}
-                          item={row}
+                          onClick={() => this.handleClickOpen(row)}
+                          /* component={Link}
+                            to={{
+                              pathname:
+                                "/productTimeLine/" +
+                                row.date +
+                                "/" +
+                                row.product,
+                              product: row.product,
+                              date: row.date
+                            }}
+                            item={row} */
                         >
                           <AddIcon />
                         </Fab>
