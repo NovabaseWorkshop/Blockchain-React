@@ -68,7 +68,8 @@ class Home extends Component {
       price: "",
       id: -1,
       date: "2018-2-14",
-      open: false
+      open: false,
+      productId: "" //id of last product registed
     };
   }
 
@@ -92,7 +93,13 @@ class Home extends Component {
         date: this.state.date
       })
     }).then(
-      this.setState({ open: true, weight: "", price: "", transport_cost: "" })
+      this.setState({
+        open: true,
+        weight: "",
+        price: "",
+        transport_cost: "",
+        productId: rand
+      })
     );
   };
 
@@ -130,6 +137,7 @@ class Home extends Component {
             <AlertDialogSlide
               value="farm"
               handleClickOpen={this.handleClickOpen}
+              productId={this.state.productId}
               handleClose={this.handleClose}
             />
           ) : null}
@@ -209,18 +217,25 @@ class Home extends Component {
                 />
               </Grid>
 
-              {this.state.product ? (
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    date="name"
-                    className={classes.button}
-                    onClick={this.submitData}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-              ) : null}
+              <Grid item>
+                <Button
+                  variant="contained"
+                  date="name"
+                  color="secondary"
+                  disabled={
+                    this.state.product &&
+                    this.state.transport_cost &&
+                    this.state.weight &&
+                    this.state.price
+                      ? false
+                      : true
+                  }
+                  className={classes.button}
+                  onClick={this.submitData}
+                >
+                  Submit
+                </Button>
+              </Grid>
             </Paper>
           </form>
         </Grid>

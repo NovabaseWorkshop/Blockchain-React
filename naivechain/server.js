@@ -16,6 +16,7 @@ var initConnection = ws => {
   sockets.push(ws);
   initMessageHandler(ws);
   initErrorHandler(ws);
+  console.log("init connection query latest");
   write(ws, queryChainLengthMsg());
 };
 var initHttpServer = http_port => {
@@ -113,15 +114,12 @@ var initHttpServer = http_port => {
     response["Cooperative"] = [];
     response["Retailer"] = [];
     for (var i = 1; i < Blockchain.retailerBranch.length; i++) {
-      console.log(Blockchain.retailerBranch[i].data.id);
-      console.log(id);
       if (Blockchain.retailerBranch[i].data.id == id) {
-        console.log("entrou");
         response["Retailer"].push(Blockchain.retailerBranch[i].data);
       }
     }
     for (var i = 1; i < Blockchain.cooperativeBranch.length; i++) {
-      if (Blockchain.retailerBranch[i].data.id == id) {
+      if (Blockchain.cooperativeBranch[i].data.id == id) {
         response["Cooperative"].push(Blockchain.cooperativeBranch[i].data);
       }
     }
@@ -182,17 +180,25 @@ var findBoxesInBlockchain = (blockchainBranch, ids) => {
 };
 
 var initMessageHandler = ws => {
+  console.log("send message");
   ws.on("message", data => {
     var message = JSON.parse(data);
-
+    console.log("message received");
     switch (message.type) {
       case Constants.MessageType.QUERY_LATEST:
+        console.log("Query latest");
+        console.log("state of naive chain");
+        console.log(responseLatestMsg());
         write(ws, responseLatestMsg());
         break;
       case Constants.MessageType.QUERY_ALL:
+        console.log("Query all");
         write(ws, responseChainMsg());
         break;
       case Constants.MessageType.RESPONSE_BLOCKCHAIN:
+        console.log("responde blockchain");
+        console.log("naivechain received");
+        console.log(message);
         handleBlockchainResponse(message);
         break;
     }
@@ -211,6 +217,7 @@ var initErrorHandler = ws => {
 function connectToPeers(newPeers) {
   newPeers.forEach(peer => {
     var ws = new WebSocket(peer);
+    console.log("conecting to peers " + peer);
     ws.on("open", () => initConnection(ws));
     ws.on("error", () => {
       console.log("connection failed");
@@ -226,9 +233,9 @@ var handleBlockchainResponse = message => {
   var receivedCooperativeBlocks = JSON.parse(message.cooperativeBranch);
   var receivedRetailerBlocks = JSON.parse(message.retailerBranch);
 
-  var latestFarmerBlockHeld = Blockchain.getLatestFarmerBlock();
-  var latestCooperativeBlockHeld = Blockchain.getLatestCooperativeBlock();
-  var latestRetailerBlockHeld = Blockchain.getLatestRetailerBlock();
+  var latestFarmerBlockHeld = getLatestFarmerBlock();
+  var latestCooperativeBlockHeld = getLatestCooperativeBlock();
+  var latestRetailerBlockHeld = getLatestRetailerBlock();
 
   checkDifferencesInBlockchain(
     latestFarmerBlockHeld,
@@ -347,11 +354,9 @@ function responseLatestMsg() {
   var lastFarmerBlock = "";
   var lastCooperativeBlock = "";
   var lastRetailerBlock = "";
-  lastFarmerBlock = JSON.stringify([Blockchain.getLatestFarmerBlock()]);
-  lastCooperativeBlock = JSON.stringify([
-    Blockchain.getLatestCooperativeBlock()
-  ]);
-  lastRetailerBlock = JSON.stringify([Blockchain.getLatestRetailerBlock()]);
+  lastFarmerBlock = JSON.stringify([getLatestFarmerBlock()]);
+  lastCooperativeBlock = JSON.stringify([getLatestCooperativeBlock()]);
+  lastRetailerBlock = JSON.stringify([getLatestRetailerBlock()]);
   var type = Constants.MessageType.RESPONSE_BLOCKCHAIN;
   return {
     type,
@@ -363,6 +368,13 @@ function responseLatestMsg() {
 
 var write = (ws, message) => ws.send(JSON.stringify(message));
 var broadcast = message => sockets.forEach(socket => write(socket, message));
+
+var getLatestFarmerBlock = () =>
+  Blockchain.farmerBranch[Blockchain.farmerBranch.length - 1];
+var getLatestCooperativeBlock = () =>
+  Blockchain.cooperativeBranch[Blockchain.cooperativeBranch.length - 1];
+var getLatestRetailerBlock = () =>
+  Blockchain.retailerBranch[Blockchain.retailerBranch.length - 1];
 
 module.exports = {
   broadcast,

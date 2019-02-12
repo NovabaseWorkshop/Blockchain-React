@@ -14,6 +14,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { withStyles } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -47,13 +48,13 @@ function Message(props) {
   if (props.value === "farm")
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        Product registered.
+        Product with id {props.productId} registered.
       </DialogContentText>
     );
   else if (props.value === "coop")
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        Product purchased.
+        Product with id {props.productId} purchased.
       </DialogContentText>
     );
   else if (props.value === "retailering") {
@@ -87,6 +88,13 @@ function Message(props) {
                       variant="contained"
                       date="name"
                       className={classes.button}
+                      component={Link}
+                      to={{
+                        pathname:
+                          "/productTimeLine/" + row.date + "/" + row.product,
+                        product: row.product,
+                        date: row.date
+                      }}
                     >
                       Details
                     </Button>

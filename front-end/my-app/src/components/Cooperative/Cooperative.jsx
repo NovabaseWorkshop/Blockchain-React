@@ -24,6 +24,9 @@ const styles = theme => ({
     square: true,
     marginTop: "40px"
   },
+  paper2: {
+    padding: theme.spacing.unit * 3
+  },
   button: {
     margin: theme.spacing.unit
   },
@@ -44,9 +47,7 @@ const styles = theme => ({
   div: {
     textAlign: "center"
   },
-  inputs: {
-    marginTop: "70px"
-  }
+  inputs: {}
 });
 
 class Cooperative extends Component {
@@ -64,7 +65,8 @@ class Cooperative extends Component {
       item: {},
       margin: "",
       open: false,
-      avaliable_boxes: []
+      avaliable_boxes: [],
+      lastProductSold: {}
     };
   }
 
@@ -99,7 +101,8 @@ class Cooperative extends Component {
         transport_cost: "",
         margin: "",
         open: true,
-        boxes_sold: array
+        boxes_sold: array,
+        lastProductSold: item
       })
     );
   };
@@ -164,80 +167,83 @@ class Cooperative extends Component {
         {this.state.open ? (
           <AlertDialogSlide
             value="coop"
+            productId={this.state.lastProductSold.id}
             handleClickOpen={this.handleClickOpen}
             handleClose={this.handleClose}
           />
         ) : null}
         <h1 className={classes.div}>Cooperative: Product Purchase</h1>
-        <Grid
-          container
-          direction="row"
-          justify="space-evenly"
-          alignItems="center"
-          className={classes.inputs}
-        >
-          <Grid item>
-            <Selecter
-              name="product"
-              handleChange={this.myHandlerInput}
-              selectedProduct={this.state.product}
-              description="BoxID"
-              items={this.state.boxes_sold}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              value={this.state.transport_cost}
-              label="Deliever Cost"
-              name="transport_cost"
-              onChange={this.myHandlerInput}
-              id="simple-start-adornment"
-              className={classNames(classes.margin, classes.textField)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">€</InputAdornment>
-                )
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              value={this.state.margin}
-              label="Margin"
-              id="simple-start-adornment"
-              name="margin"
-              onChange={this.myHandlerInput}
-              className={classNames(classes.margin, classes.textField)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">%</InputAdornment>
-                )
-              }}
-            />
-          </Grid>
+        <Grid container justify="space-evenly" alignItems="center">
+          <Paper className={classes.paper2}>
+            <Grid
+              container
+              direction="row"
+              justify="space-evenly"
+              alignItems="center"
+              className={classes.inputs}
+            >
+              <Grid item>
+                <Selecter
+                  name="product"
+                  handleChange={this.myHandlerInput}
+                  selectedProduct={this.state.product}
+                  description="BoxID"
+                  items={this.state.boxes_sold}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={this.state.transport_cost}
+                  label="Deliever Cost"
+                  name="transport_cost"
+                  onChange={this.myHandlerInput}
+                  id="simple-start-adornment"
+                  className={classNames(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">€</InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={this.state.margin}
+                  label="Margin"
+                  id="simple-start-adornment"
+                  name="margin"
+                  onChange={this.myHandlerInput}
+                  className={classNames(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">%</InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
 
-          <Grid item>
-            <form className={classes.container} noValidate>
-              <TextField
-                id="date"
-                name="date"
-                label="Date"
-                onChange={this.myHandlerInput}
-                type="date"
-                defaultValue="2018-02-14"
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-            </form>
-          </Grid>
-          <Grid item />
+              <Grid item>
+                <form className={classes.container} noValidate>
+                  <TextField
+                    id="date"
+                    name="date"
+                    label="Date"
+                    onChange={this.myHandlerInput}
+                    type="date"
+                    defaultValue="2018-02-14"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                </form>
+              </Grid>
+              <Grid item />
+            </Grid>
+          </Paper>
         </Grid>
 
-        {this.state.product &&
-        this.state.transport_cost &&
-        this.state.margin ? (
+        {this.state.product ? (
           <Grid
             container
             direction="column"
@@ -277,6 +283,14 @@ class Cooperative extends Component {
                   date="name"
                   className={classes.button}
                   onClick={() => this.submitData(product)}
+                  color="secondary"
+                  disabled={
+                    this.state.product &&
+                    this.state.transport_cost &&
+                    this.state.margin
+                      ? false
+                      : true
+                  }
                 >
                   BUY
                 </Button>
