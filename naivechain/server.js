@@ -5,6 +5,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var sockets = [];
+var peers = [];
 
 var initP2PServer = p2p_port => {
   var server = new WebSocket.Server({ port: p2p_port });
@@ -147,6 +148,9 @@ var initHttpServer = http_port => {
     connectToPeers([req.body.peer]);
     res.send();
   });
+  app.get("/listPeers", (req, res) => {
+    res.send(JSON.stringify(peers));
+  });
   app.get("/cooperativeGetAvailableBoxes", (req, res) => {
     var response = {};
     var boxesIds = [];
@@ -221,10 +225,15 @@ var initErrorHandler = ws => {
 
 function connectToPeers(newPeers) {
   newPeers.forEach(peer => {
+    peers.push(peer);
     var ws = new WebSocket(peer);
     console.log("conecting to peers " + peer);
     ws.on("open", () => initConnection(ws));
     ws.on("error", () => {
+      var index = array.indexOf(peer);
+      if (index > -1) {
+        peers.splice(index, 1);
+      }
       console.log("connection failed");
     });
   });
