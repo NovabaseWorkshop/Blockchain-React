@@ -158,7 +158,7 @@ class RetailerPurchase extends Component {
         <AppBar />
         <Paper className={classes.root}>
           <Table className={classes.table}>
-            <TableHead>
+            <TableHead className={{ color: "secondary" }}>
               <TableRow>
                 <CustomTableCell>BoxId </CustomTableCell>
                 <CustomTableCell align="right">Product</CustomTableCell>
@@ -204,6 +204,7 @@ class RetailerPurchase extends Component {
                       variant="contained"
                       date="name"
                       className={classes.button}
+                      color="secondary"
                       onClick={() => this.submitData(row)}
                       {...(this.state.disabled ? "disabled" : null)}
                     >

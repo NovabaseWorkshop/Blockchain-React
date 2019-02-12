@@ -221,6 +221,7 @@ class Home extends Component {
                 <Button
                   variant="contained"
                   date="name"
+                  color="secondary"
                   disabled={
                     this.state.product &&
                     this.state.transport_cost &&

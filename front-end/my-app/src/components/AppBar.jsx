@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
 
 import Menu from "./Menu.jsx";
 
@@ -14,6 +15,9 @@ const styles = {
   menuButton: {
     marginLeft: -18,
     marginRight: 10
+  },
+  avatar: {
+    margin: 10
   }
 };
 
@@ -24,9 +28,14 @@ function DenseAppBar(props) {
       <AppBar position="static">
         <Toolbar variant="dense">
           <Menu />
-          <Typography variant="h6" color="inherit">
+          <Typography variant="h6" color="secondary">
             Market Chain
           </Typography>
+          <Avatar
+            alt="Logo"
+            src="https://pbs.twimg.com/profile_images/889510630402797570/Zh2f3sMv_400x400.jpg"
+            className={classes.avatar}
+          />
         </Toolbar>
       </AppBar>
     </div>

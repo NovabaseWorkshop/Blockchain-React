@@ -247,8 +247,9 @@ class RetailerPurchase extends Component {
                           aria-label="Add"
                           className={classes.fab}
                           onClick={() => alert("maumau")}
+                          color={"primary"}
                         >
-                          <AddIcon />
+                          <AddIcon color={"secondary"} />
                         </Fab>
                       </CustomTableCell>
                     </TableRow>

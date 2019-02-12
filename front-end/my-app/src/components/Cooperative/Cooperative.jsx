@@ -283,6 +283,7 @@ class Cooperative extends Component {
                   date="name"
                   className={classes.button}
                   onClick={() => this.submitData(product)}
+                  color="secondary"
                   disabled={
                     this.state.product &&
                     this.state.transport_cost &&
