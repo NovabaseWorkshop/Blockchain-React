@@ -11,6 +11,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
 import {
   currencyFormatter,
   floatNumberFormatter
@@ -93,7 +94,7 @@ class RetailerPurchase extends Component {
       weight: "",
       price: "",
       id: -1,
-      date: "2018-2-14",
+      date: {},
       avaliable_boxes: [],
       item: {},
       margin: null,
@@ -103,6 +104,11 @@ class RetailerPurchase extends Component {
 
   submitData = item => {
     let array = this.state.avaliable_boxes;
+    let date = [];
+
+    let a = "";
+    date = this.state.date[item.id];
+    a = date[0];
 
     var index = array.indexOf(item);
     console.log(index);
@@ -110,7 +116,6 @@ class RetailerPurchase extends Component {
       array.splice(index, 1);
     }
 
-    console.log("maria: " + item);
     fetch("http://localhost:3001/retailerMineBlock", {
       method: "POST",
       headers: {
@@ -122,7 +127,7 @@ class RetailerPurchase extends Component {
         product: item.product,
         weight: item.weight,
         price: item.price,
-        date: this.state.date,
+        date: a,
         final_cost: item.final_cost_retailer
       })
     });
@@ -145,8 +150,22 @@ class RetailerPurchase extends Component {
     this.setState({ [name]: event.target.value });
   };
 
-  myHandlerInput = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  myHandlerInput = (event, row) => {
+    let aux;
+    let final_object = this.state.date;
+    let array = [];
+
+    console.log(final_object);
+    if (event.target.name === "date") {
+      aux = row;
+      aux.date = event.target.value;
+
+      final_object[row.id] = [];
+      array.push(row.date);
+      final_object[row.id] = array;
+
+      this.setState({ [event.target.name]: final_object });
+    } else this.setState({ [event.target.name]: event.target.value });
   };
 
   getProductObject() {
@@ -207,20 +226,18 @@ class RetailerPurchase extends Component {
                       </CustomTableCell>
 
                       <CustomTableCell align="right">
-                        <form className={classes.container} noValidate>
-                          <TextField
-                            id="date"
-                            name="date"
-                            label="Date"
-                            onChange={this.myHandlerInput}
-                            type="date"
-                            defaultValue="2018-02-14"
-                            className={classes.textField}
-                            InputLabelProps={{
-                              shrink: true
-                            }}
-                          />
-                        </form>
+                        <TextField
+                          id="date"
+                          name="date"
+                          label="Date"
+                          onChange={e => this.myHandlerInput(e, row)}
+                          type="date"
+                          defaultValue="2018-02-14"
+                          className={classes.textField}
+                          InputLabelProps={{
+                            shrink: true
+                          }}
+                        />
                       </CustomTableCell>
 
                       <CustomTableCell align="right">
@@ -229,9 +246,12 @@ class RetailerPurchase extends Component {
                           date="name"
                           className={classes.button}
                           color="secondary"
-                          onClick={() => this.submitData(row)}
+                          onClick={e => {
+                            this.submitData(row);
+                          }}
                           {...(this.state.disabled ? "disabled" : null)}
                         >
+                          {" "}
                           BUY
                         </Button>
                       </CustomTableCell>
