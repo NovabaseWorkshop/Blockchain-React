@@ -284,7 +284,7 @@ class Cooperative extends Component {
                       : true
                   }
                 >
-                  <Typography color="primary">BUY</Typography>
+                  BUY
                 </Button>
               </div>
             </Grid>
