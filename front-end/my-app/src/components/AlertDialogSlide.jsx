@@ -14,7 +14,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
@@ -34,22 +33,6 @@ const styles = theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white
-  }
-});
-
-const styles2 = theme => ({
-  root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3,
-    overflowX: "auto"
-  },
-  table: {
-    minWidth: 700
-  },
-  row: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.background.default
-    }
   }
 });
 
@@ -97,7 +80,7 @@ function Message(props) {
     console.log(list);
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        Click on the button to check timeline
+        Click on a box to check timeline
         <br />
         <br />
         <Paper className={classes.root}>

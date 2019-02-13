@@ -161,6 +161,7 @@ class Cooperative extends Component {
         {this.state.open ? (
           <AlertDialogSlide
             value="coop"
+            title="Success"
             productId={this.state.lastProductSold.id}
             handleClickOpen={this.handleClickOpen}
             handleClose={this.handleClose}
@@ -284,7 +285,7 @@ class Cooperative extends Component {
                       : true
                   }
                 >
-                  <Typography color="primary">BUY</Typography>
+                  BUY
                 </Button>
               </div>
             </Grid>

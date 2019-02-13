@@ -4,13 +4,15 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Selecter from "./Selecter.jsx";
+
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import classNames from "classnames";
 import Button from "@material-ui/core/Button";
 import AlertDialogSlide from "./AlertDialogSlide.jsx";
-import Typography from "@material-ui/core/Typography";
+import { MenuItem } from "@material-ui/core";
+
+let date = require("date-and-time");
 
 const styles = theme => ({
   root: {
@@ -112,7 +114,9 @@ class Home extends Component {
   };
 
   myHandlerInput = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    let aux = event.target.value;
+
+    this.setState({ [event.target.name]: aux.toString() });
   };
 
   handleClickOpen = () => {
@@ -147,16 +151,24 @@ class Home extends Component {
             direction="row"
             justify="space-evenly"
             alignItems="center"
-            className={classes.inputs}
           >
             <Grid item>
-              <Selecter
+              <TextField
+                id="standard-select-currency"
+                select
+                label="Product"
                 name="product"
-                handleChange={this.myHandlerInput}
-                selectedProduct={this.state.product}
-                description="Product"
-                items={selectObject}
-              />
+                className={classes.textField}
+                value={this.state.product}
+                onChange={this.myHandlerInput}
+                margin="normal"
+              >
+                {selectObject.map(option => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.id}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item>
               <TextField
@@ -208,6 +220,7 @@ class Home extends Component {
             </Grid>
             <Grid item>
               <TextField
+                formatDate={this.formatDate}
                 margin="normal"
                 id="date"
                 name="date"

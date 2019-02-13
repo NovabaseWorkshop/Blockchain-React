@@ -3,9 +3,13 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { MenuItem } from "@material-ui/core";
+import { MenuItem, InputLabel } from "@material-ui/core";
 
 const styles = theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120
@@ -21,15 +25,13 @@ const SelecterFarmer = props => {
 
   return (
     <FormControl className={classes.formControl}>
+      <InputLabel>{description}</InputLabel>
       <Select
         value={selectedProduct}
         onChange={handleChange}
         name="product"
         displayEmpty
       >
-        <MenuItem value="" disabled>
-          {description}
-        </MenuItem>
         {items.map(item => (
           <MenuItem key={item.id} value={item.id}>
             {item.id}
