@@ -21,6 +21,7 @@ POST | http://ip:port/cooperativeMineBlock | Creation of the Data corresponding 
 POST | http://ip:port/retailerMineBlock | Creation of the Data corresponding to the **Retailer**.
  GET | http://ip:port/getBoxesByDate | Gets all the boxes bought by the **retailer** ordered by data.
  GET | http://ip:port/getBoxes/:date/:produto |  :date (Ex: 14-6-2018), :produto (Ex: truffles) Gets the boxes timeline from a certain product purchased by the **retailer** in a given date.
+ GET | http://ip:port/getBoxTimeline/:id | Get the box with the given id
  GET | http://ip:port/cooperativeGetAvailableBoxes | Gets the avaliable boxes by the **cooperative**
  GET | http://ip:port/farmerGetAvailableBoxes | Gets the avaliable boxes by the **farmer**
 
