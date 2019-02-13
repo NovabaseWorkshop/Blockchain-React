@@ -1,97 +1,87 @@
 import React from "react";
-
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
+import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 
 const styles = theme => ({
-  root: {
-    display: "flex"
-  },
-  paper: {
-    marginRight: theme.spacing.unit * 2
-  }
+	root: {
+		display: "flex"
+	},
+	paper: {
+		marginRight: theme.spacing.unit * 2
+	}
 });
 
 class MenuListComposition extends React.Component {
-  state = {
-    open: false
-  };
+	state = {
+		anchorEl: null
+	};
 
-  handleToggle = () => {
-    this.setState(state => ({ open: !state.open }));
-  };
+	handleChange = event => {
+		this.setState({ auth: event.target.checked });
+	};
 
-  handleClose = event => {
-    if (this.anchorEl.contains(event.target)) {
-      return;
-    }
+	handleMenu = event => {
+		this.setState({ anchorEl: event.currentTarget });
+	};
 
-    this.setState({ open: false });
-  };
+	handleClose = () => {
+		this.setState({ anchorEl: null });
+	};
 
-  render() {
-    const { classes } = this.props;
-    const { open } = this.state;
+	render() {
+		const { classes } = this.props;
+		const { anchorEl } = this.state;
+		const open = Boolean(anchorEl);
 
-    return (
-      <div className={classes.root}>
-        <IconButton
-          buttonRef={node => {
-            this.anchorEl = node;
-          }}
-          aria-owns={open ? "menu-list-grow" : undefined}
-          aria-haspopup="true"
-          onClick={this.handleToggle}
-          color="inherit"
-        >
-          <MenuIcon />
-        </IconButton>
-        <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={this.handleClose}>
-                  <MenuList>
-                    <MenuItem component={Link} to="/farmer">
-                      Farmer
-                    </MenuItem>
-                    <MenuItem
-                      component={Link}
-                      to="/cooperative"
-                      onClick={this.handleClose}
-                    >
-                      Cooperative
-                    </MenuItem>
-                    <MenuItem component={Link} to="/retailerpurchase">
-                      Retailer Purchase
-                    </MenuItem>
-                    <MenuItem component={Link} to="/retailer">
-                      Retailer
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
-    );
-  }
+		return (
+			<div className={classes.root}>
+				<IconButton
+					aria-owns={open ? "menu-appbar" : undefined}
+					aria-haspopup="true"
+					onClick={this.handleMenu}
+					color="inherit"
+				>
+					<MenuIcon />
+				</IconButton>
+
+				<Menu
+					id="menu-appbar"
+					anchorEl={anchorEl}
+					anchorOrigin={{
+						vertical: " bottom",
+						horizontal: "right"
+					}}
+					transformOrigin={{
+						vertical: "top",
+						horizontal: "right"
+					}}
+					open={open}
+					onClose={this.handleClose}
+				>
+					<MenuItem component={Link} to="/farmer">
+						Farmer
+					</MenuItem>
+					<MenuItem
+						component={Link}
+						to="/cooperative"
+						onClick={this.handleClose}
+					>
+						Cooperative
+					</MenuItem>
+					<MenuItem component={Link} to="/retailerpurchase">
+						Retailer Purchase
+					</MenuItem>
+					<MenuItem component={Link} to="/retailer">
+						Retailer
+					</MenuItem>
+				</Menu>
+			</div>
+		);
+	}
 }
 
 export default withStyles(styles)(MenuListComposition);
