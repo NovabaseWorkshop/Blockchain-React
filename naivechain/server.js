@@ -120,7 +120,7 @@ var initHttpServer = http_port => {
     );
     res.send(JSON.stringify(response));
   });
-  app.get("/getBoxeTimeline/:id", (req, res) => {
+  app.get("/getBoxTimeline/:id", (req, res) => {
     var id = req.params.id;
     var response = {};
     response["Farmer"] = [];
