@@ -12,8 +12,6 @@ import Button from "@material-ui/core/Button";
 import AlertDialogSlide from "./AlertDialogSlide.jsx";
 import { MenuItem } from "@material-ui/core";
 
-let date = require("date-and-time");
-
 const styles = theme => ({
   root: {
     flexGrow: 1
