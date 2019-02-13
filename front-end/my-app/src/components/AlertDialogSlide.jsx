@@ -136,7 +136,7 @@ function Message(props) {
                         id: row.id
                       }}
                     >
-                      <Typography color="primary">Details</Typography>
+                      Details
                     </Button>
                   </TableCell>
                 </TableRow>

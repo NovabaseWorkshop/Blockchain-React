@@ -28,7 +28,7 @@ function DenseAppBar(props) {
       <AppBar position="static">
         <Toolbar variant="dense">
           <Menu />
-          <Typography variant="h6" color="secondary">
+          <Typography variant="h6" color="inherit">
             Market Chain
           </Typography>
           <Avatar

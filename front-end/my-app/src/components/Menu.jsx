@@ -52,7 +52,7 @@ class MenuListComposition extends React.Component {
           onClick={this.handleToggle}
           color="inherit"
         >
-          <MenuIcon color="secondary" />
+          <MenuIcon />
         </IconButton>
         <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
           {({ TransitionProps, placement }) => (
