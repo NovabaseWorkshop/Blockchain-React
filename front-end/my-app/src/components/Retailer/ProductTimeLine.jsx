@@ -18,11 +18,13 @@ import Grid from "@material-ui/core/Grid";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+    fontWeight: 600,
+    fontSize: 16
   },
   body: {
-    fontSize: 14
+    fontSize: 16
   }
 }))(TableCell);
 
@@ -153,7 +155,7 @@ class RetailerPurchase extends Component {
     let name = params.get("date");
     console.log(this.props);
     console.log(this.props.location.id);
-    let url = "http://localhost:3001/getBoxeTimeline/" + this.props.location.id;
+    let url = "http://localhost:3001/getBoxTimeline/" + this.props.location.id;
 
     fetch(url)
       .then(data => data.json())
@@ -196,7 +198,7 @@ class RetailerPurchase extends Component {
         <AppBar />
         <Grid container direction="column">
           <Grid item>
-            <Typography style={{ padding: 20 }} variant="h3">
+            <Typography style={{ padding: 20 }} variant="h5">
               {this.props.location.product}
             </Typography>
           </Grid>

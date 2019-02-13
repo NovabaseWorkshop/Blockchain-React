@@ -116,7 +116,8 @@ function Message(props) {
                       to={{
                         pathname: "/productTimeLine/" + row.id,
                         date: row.date,
-                        id: row.id
+                        id: row.id,
+                        product: row.product
                       }}
                     >
                       Details
