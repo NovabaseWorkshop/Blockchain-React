@@ -12,6 +12,10 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import AlertDialogSlide from "../AlertDialogSlide.jsx";
 import Moment from "react-moment";
+import {
+  currencyFormatter,
+  floatNumberFormatter
+} from "../../utils/formatters.js";
 
 const styles = theme => ({
   root: {
@@ -237,10 +241,10 @@ class RetailerPurchase extends Component {
                           {row.product}
                         </CustomTableCell>
                         <CustomTableCell align="center">
-                          {row.weight}kg
+                          {floatNumberFormatter(row.weight)} kg
                         </CustomTableCell>
                         <CustomTableCell align="center">
-                          {row.total_price}€
+                          {currencyFormatter(row.total_price)}
                         </CustomTableCell>
                         <CustomTableCell align="center">
                           {row.final_cost_retailer}
@@ -253,17 +257,6 @@ class RetailerPurchase extends Component {
                             aria-label="Add"
                             className={classes.fab}
                             onClick={() => this.handleClickOpen(row)}
-                            /* component={Link}
-                            to={{
-                              pathname:
-                                "/productTimeLine/" +
-                                row.date +
-                                "/" +
-                                row.product,
-                              product: row.product,
-                              date: row.date
-                            }}
-                            item={row} */
                           >
                             <AddIcon color={"inherent"} />
                           </Fab>

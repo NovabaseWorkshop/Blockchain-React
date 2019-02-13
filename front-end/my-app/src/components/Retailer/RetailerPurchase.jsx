@@ -200,7 +200,7 @@ class RetailerPurchase extends Component {
                         {currencyFormatter(row.price)}
                       </CustomTableCell>
                       <CustomTableCell align="center">
-                        {floatNumberFormatter(row.weight)}
+                        {floatNumberFormatter(row.weight)} kg
                       </CustomTableCell>
                       <CustomTableCell align="center">
                         {currencyFormatter(row.final_cost_retailer)}

@@ -35,7 +35,7 @@ const CustomTableCell = withStyles(theme => ({
 
 const styles = theme => ({
   root: {
-    width: "90%"
+    width: "100%"
   },
   button: {
     marginTop: theme.spacing.unit,
@@ -46,6 +46,10 @@ const styles = theme => ({
   },
   resetContainer: {
     padding: theme.spacing.unit * 3
+  },
+  div: {
+    paddingLeft: 40,
+    paddingRight: 40
   }
 });
 
@@ -109,10 +113,14 @@ function getStepContent(step, boxes) {
               {boxes.Cooperative.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
-                  <TableCell align="center">{row.transport_cost}€</TableCell>
-                  <TableCell align="center">{row.margin}%</TableCell>
                   <TableCell align="center">
-                    {row.final_cost_retailer}€
+                    {currencyFormatter(row.transport_cost)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {floatNumberFormatter(row.margin)} %
+                  </TableCell>
+                  <TableCell align="center">
+                    {currencyFormatter(row.final_cost_retailer)}
                   </TableCell>
                   <TableCell>
                     <Moment format="DD/MM/YYYY">{row.date}</Moment>
@@ -140,9 +148,15 @@ function getStepContent(step, boxes) {
               {boxes.Retailer.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
-                  <TableCell align="center">{row.price}€</TableCell>
-                  <TableCell align="center">{row.weight}kg</TableCell>
-                  <TableCell align="center">{row.final_cost}€</TableCell>
+                  <TableCell align="center">
+                    {currencyFormatter(row.price)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {floatNumberFormatter(row.weight)} kg
+                  </TableCell>
+                  <TableCell align="center">
+                    {currencyFormatter(row.final_cost)}
+                  </TableCell>
                   <TableCell>
                     <Moment format="DD/MM/YYYY">{row.date}</Moment>
                   </TableCell>
@@ -215,43 +229,40 @@ class RetailerPurchase extends Component {
     const { activeStep } = this.state;
 
     return (
-      <Grid>
+      <div>
         <AppBar />
-        <Grid container direction="column">
-          <Grid item>
-            <Typography style={{ padding: 20 }} variant="h5">
-              {this.props.location.product}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Stepper activeStep={activeStep} orientation="vertical">
-              {steps.map((label, index) => (
-                <Step key={label}>
-                  <StepLabel
-                    style={{ cursor: "pointer" }}
-                    onClick={() => this.handleClick(index)}
-                  >
-                    {label}
-                  </StepLabel>
-                  <StepContent>
-                    {getStepContent(index, this.state.data)}
-                  </StepContent>
-                </Step>
-              ))}
-            </Stepper>
-            {activeStep === steps.length && (
-              <Paper square elevation={0} className={classes.resetContainer}>
-                <Typography>
-                  All steps completed - you&apos;re finished
-                </Typography>
-                <Button onClick={this.handleReset} className={classes.button}>
-                  Reset
-                </Button>
-              </Paper>
-            )}
-          </Grid>
-        </Grid>
-      </Grid>
+        <div className={classes.div}>
+          <Typography style={{ padding: 20 }} variant="h5">
+            {this.props.location.product}
+          </Typography>
+
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {steps.map((label, index) => (
+              <Step key={label}>
+                <StepLabel
+                  style={{ cursor: "pointer" }}
+                  onClick={() => this.handleClick(index)}
+                >
+                  {label}
+                </StepLabel>
+                <StepContent>
+                  {getStepContent(index, this.state.data)}
+                </StepContent>
+              </Step>
+            ))}
+          </Stepper>
+          {activeStep === steps.length && (
+            <Paper square elevation={0} className={classes.resetContainer}>
+              <Typography>
+                All steps completed - you&apos;re finished
+              </Typography>
+              <Button onClick={this.handleReset} className={classes.button}>
+                Reset
+              </Button>
+            </Paper>
+          )}
+        </div>
+      </div>
     );
   }
 }

@@ -163,7 +163,11 @@ class AlertDialogSlide extends React.Component {
           </DialogTitle>
           <DialogContent>{Message(this.props)}</DialogContent>
           <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary">
+            <Button
+              onClick={this.props.handleClose}
+              color="secondary"
+              variant="contained"
+            >
               Ok
             </Button>
           </DialogActions>

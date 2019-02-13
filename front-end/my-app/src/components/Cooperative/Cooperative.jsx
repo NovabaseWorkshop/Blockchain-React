@@ -11,6 +11,10 @@ import classNames from "classnames";
 import Button from "@material-ui/core/Button";
 import AlertDialogSlide from "../AlertDialogSlide.jsx";
 import Typography from "@material-ui/core/Typography";
+import {
+  currencyFormatter,
+  floatNumberFormatter
+} from "../../utils/formatters.js";
 
 const styles = theme => ({
   root: {
@@ -46,8 +50,9 @@ const styles = theme => ({
     width: 200
   },
   div: {
-    textAlign: "left",
-
+    textAlign: "left"
+  },
+  div2: {
     paddingLeft: 40,
     paddingRight: 40
   }
@@ -146,7 +151,7 @@ class Cooperative extends Component {
         Number(this.state.transport_cost)) *
       margin;
 
-    return Math.round(final_cost);
+    return final_cost;
   }
 
   getTotalBoxCost(item) {
@@ -161,140 +166,149 @@ class Cooperative extends Component {
     return (
       <div>
         <AppBar />
-        {this.state.open ? (
-          <AlertDialogSlide
-            value="coop"
-            title="Success"
-            productId={this.state.lastProductSold.id}
-            handleClickOpen={this.handleClickOpen}
-            handleClose={this.handleClose}
-          />
-        ) : null}
-        <div className={classes.div} />
-        <h2 className={classes.div}>Cooperative: Product Purchase</h2>
+        <div className={classes.div2}>
+          {this.state.open ? (
+            <AlertDialogSlide
+              value="coop"
+              title="Success"
+              productId={this.state.lastProductSold.id}
+              handleClickOpen={this.handleClickOpen}
+              handleClose={this.handleClose}
+            />
+          ) : null}
 
-        <Paper className={classes.paper2}>
-          <Grid
-            container
-            direction="row"
-            justify="space-evenly"
-            alignItems="center"
-          >
-            <Grid item>
-              <Selecter
-                name="product"
-                handleChange={this.myHandlerInput}
-                selectedProduct={this.state.product}
-                description="BoxID"
-                items={this.state.boxes_sold}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                value={this.state.transport_cost}
-                label="Deliever Cost"
-                name="transport_cost"
-                onChange={this.myHandlerInput}
-                id="simple-start-adornment"
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">€</InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                value={this.state.margin}
-                label="Margin"
-                id="simple-start-adornment"
-                name="margin"
-                onChange={this.myHandlerInput}
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">%</InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
+          <h2 className={classes.div}>Cooperative: Product Purchase</h2>
 
-            <Grid item>
-              <form className={classes.container} noValidate>
+          <Paper className={classes.paper2}>
+            <Grid
+              container
+              direction="row"
+              justify="space-evenly"
+              alignItems="center"
+            >
+              <Grid item>
+                <Selecter
+                  name="product"
+                  handleChange={this.myHandlerInput}
+                  selectedProduct={this.state.product}
+                  description="BoxID"
+                  items={this.state.boxes_sold}
+                />
+              </Grid>
+              <Grid item>
                 <TextField
-                  id="date"
-                  name="date"
-                  label="Date"
+                  value={this.state.transport_cost}
+                  label="Deliever Cost"
+                  name="transport_cost"
                   onChange={this.myHandlerInput}
-                  type="date"
-                  defaultValue="2018-02-14"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true
+                  id="simple-start-adornment"
+                  className={classNames(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">€</InputAdornment>
+                    )
                   }}
                 />
-              </form>
-            </Grid>
-            <Grid item />
-          </Grid>
-        </Paper>
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={this.state.margin}
+                  label="Margin"
+                  id="simple-start-adornment"
+                  name="margin"
+                  onChange={this.myHandlerInput}
+                  className={classNames(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">%</InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
 
-        {this.state.product ? (
-          <Grid
-            container
-            direction="column"
-            justify="space-evenly"
-            alignItems="center"
-          >
-            <Grid item>
-              <Paper className={classes.paper}>
-                Product name: <span />
-                <b>{product ? product.product : null}</b>
-                <br />
-                <br />
-                Total Box Cost:
-                <b>{product ? this.getTotalBoxCost(product) : null}€</b>
-                <br />
-                <br />
-                Cost kg: <b>{product ? product.price : null} €</b>
-                <br />
-                <br />
-                Weight: <b>{product ? product.weight : null} kg </b>
-                <br />
-                <br />
-                Final Cost for Retailer:
-                <b>
-                  {this.state.margin && product
-                    ? this.getFinalPrice(product)
-                    : null}{" "}
-                  €
-                </b>
-              </Paper>
+              <Grid item>
+                <form className={classes.container} noValidate>
+                  <TextField
+                    id="date"
+                    name="date"
+                    label="Date"
+                    onChange={this.myHandlerInput}
+                    type="date"
+                    defaultValue="2018-02-14"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                </form>
+              </Grid>
+              <Grid item />
             </Grid>
+          </Paper>
 
-            <Grid item>
-              <div>
-                <Button
-                  variant="contained"
-                  date="name"
-                  className={classes.button}
-                  onClick={() => this.submitData(product)}
-                  color="secondary"
-                  disabled={
-                    this.state.product &&
-                    this.state.transport_cost &&
-                    this.state.margin
-                      ? false
-                      : true
-                  }
-                >
-                  BUY
-                </Button>
-              </div>
+          {this.state.product ? (
+            <Grid
+              container
+              direction="column"
+              justify="space-evenly"
+              alignItems="center"
+            >
+              <Grid item>
+                <Paper className={classes.paper}>
+                  Product name: <span />
+                  <b>{product ? product.product : null}</b>
+                  <br />
+                  <br />
+                  Total Box Cost: <span />
+                  <b>
+                    {product
+                      ? currencyFormatter(this.getTotalBoxCost(product))
+                      : null}
+                  </b>
+                  <br />
+                  <br />
+                  Cost kg:{" "}
+                  <b>{product ? currencyFormatter(product.price) : null} </b>
+                  <br />
+                  <br />
+                  Weight:{" "}
+                  <b>
+                    {product ? floatNumberFormatter(product.weight) : null} kg{" "}
+                  </b>
+                  <br />
+                  <br />
+                  Final Cost for Retailer: <span />
+                  <b>
+                    {this.state.margin && product
+                      ? currencyFormatter(this.getFinalPrice(product))
+                      : null}{" "}
+                  </b>
+                </Paper>
+              </Grid>
+
+              <Grid item>
+                <div>
+                  <Button
+                    variant="contained"
+                    date="name"
+                    className={classes.button}
+                    onClick={() => this.submitData(product)}
+                    color="secondary"
+                    disabled={
+                      this.state.product &&
+                      this.state.transport_cost &&
+                      this.state.margin
+                        ? false
+                        : true
+                    }
+                  >
+                    BUY
+                  </Button>
+                </div>
+              </Grid>
             </Grid>
-          </Grid>
-        ) : null}
+          ) : null}
+        </div>
       </div>
     );
   }
