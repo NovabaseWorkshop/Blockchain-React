@@ -16,6 +16,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Grid from "@material-ui/core/Grid";
 import Moment from "react-moment";
+import {
+  currencyFormatter,
+  floatNumberFormatter
+} from "../../utils/formatters.js";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -70,9 +74,15 @@ function getStepContent(step, boxes) {
               {boxes.Farmer.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
-                  <TableCell align="center">{row.price}€</TableCell>
-                  <TableCell align="center">{row.transport_cost}€</TableCell>
-                  <TableCell align="center">{row.weight}kg</TableCell>
+                  <TableCell align="center">
+                    {currencyFormatter(row.price)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {currencyFormatter(row.transport_cost)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {floatNumberFormatter(row.weight)} kg
+                  </TableCell>
                   <TableCell>
                     <Moment format="DD/MM/YYYY">{row.date}</Moment>
                   </TableCell>

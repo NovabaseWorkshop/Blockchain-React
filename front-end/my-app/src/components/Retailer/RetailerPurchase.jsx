@@ -11,6 +11,10 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Grid from "@material-ui/core/Grid";
+import {
+  currencyFormatter,
+  floatNumberFormatter
+} from "../../utils/formatters.js";
 
 const styles = theme => ({
   root: {
@@ -193,13 +197,13 @@ class RetailerPurchase extends Component {
                         {row.product}
                       </CustomTableCell>
                       <CustomTableCell align="center">
-                        {row.price}€
+                        {currencyFormatter(row.price)}
                       </CustomTableCell>
                       <CustomTableCell align="center">
-                        {row.weight}kg
+                        {floatNumberFormatter(row.weight)}
                       </CustomTableCell>
                       <CustomTableCell align="center">
-                        {row.final_cost_retailer}€
+                        {currencyFormatter(row.final_cost_retailer)}
                       </CustomTableCell>
 
                       <CustomTableCell align="right">
