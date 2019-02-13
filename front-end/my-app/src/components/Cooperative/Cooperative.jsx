@@ -47,8 +47,7 @@ const styles = theme => ({
   },
   div: {
     textAlign: "center"
-  },
-  inputs: {}
+  }
 });
 
 class Cooperative extends Component {
@@ -117,12 +116,6 @@ class Cooperative extends Component {
       });
   }
 
-  getFarmerData = () => {};
-
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-
   myHandlerInput = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -174,75 +167,73 @@ class Cooperative extends Component {
           />
         ) : null}
         <h1 className={classes.div}>Cooperative: Product Purchase</h1>
-        <Grid container justify="space-evenly" alignItems="center">
-          <Paper className={classes.paper2}>
-            <Grid
-              container
-              direction="row"
-              justify="space-evenly"
-              alignItems="center"
-              className={classes.inputs}
-            >
-              <Grid item>
-                <Selecter
-                  name="product"
-                  handleChange={this.myHandlerInput}
-                  selectedProduct={this.state.product}
-                  description="BoxID"
-                  items={this.state.boxes_sold}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  value={this.state.transport_cost}
-                  label="Deliever Cost"
-                  name="transport_cost"
-                  onChange={this.myHandlerInput}
-                  id="simple-start-adornment"
-                  className={classNames(classes.margin, classes.textField)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">€</InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  value={this.state.margin}
-                  label="Margin"
-                  id="simple-start-adornment"
-                  name="margin"
-                  onChange={this.myHandlerInput}
-                  className={classNames(classes.margin, classes.textField)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">%</InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
 
-              <Grid item>
-                <form className={classes.container} noValidate>
-                  <TextField
-                    id="date"
-                    name="date"
-                    label="Date"
-                    onChange={this.myHandlerInput}
-                    type="date"
-                    defaultValue="2018-02-14"
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-                </form>
-              </Grid>
-              <Grid item />
+        <Paper className={classes.paper2}>
+          <Grid
+            container
+            direction="row"
+            justify="space-evenly"
+            alignItems="center"
+          >
+            <Grid item>
+              <Selecter
+                name="product"
+                handleChange={this.myHandlerInput}
+                selectedProduct={this.state.product}
+                description="BoxID"
+                items={this.state.boxes_sold}
+              />
             </Grid>
-          </Paper>
-        </Grid>
+            <Grid item>
+              <TextField
+                value={this.state.transport_cost}
+                label="Deliever Cost"
+                name="transport_cost"
+                onChange={this.myHandlerInput}
+                id="simple-start-adornment"
+                className={classNames(classes.margin, classes.textField)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">€</InputAdornment>
+                  )
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                value={this.state.margin}
+                label="Margin"
+                id="simple-start-adornment"
+                name="margin"
+                onChange={this.myHandlerInput}
+                className={classNames(classes.margin, classes.textField)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">%</InputAdornment>
+                  )
+                }}
+              />
+            </Grid>
+
+            <Grid item>
+              <form className={classes.container} noValidate>
+                <TextField
+                  id="date"
+                  name="date"
+                  label="Date"
+                  onChange={this.myHandlerInput}
+                  type="date"
+                  defaultValue="2018-02-14"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+              </form>
+            </Grid>
+            <Grid item />
+          </Grid>
+        </Paper>
 
         {this.state.product ? (
           <Grid
