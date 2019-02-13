@@ -60,11 +60,13 @@ const styles2 = theme => ({
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+    fontWeight: 600,
+    fontSize: 16
   },
   body: {
-    fontSize: 14
+    fontSize: 16
   }
 }))(TableCell);
 

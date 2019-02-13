@@ -42,7 +42,7 @@ const styles = theme => ({
     width: 200
   },
   title: {
-    textAlign: "center"
+    textAlign: "left"
   }
 });
 

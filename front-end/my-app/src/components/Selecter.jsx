@@ -6,10 +6,6 @@ import Select from "@material-ui/core/Select";
 import { MenuItem } from "@material-ui/core";
 
 const styles = theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120
@@ -24,25 +20,23 @@ const SelecterFarmer = props => {
   console.log(items);
 
   return (
-    <div className={classes.root}>
-      <FormControl className={classes.formControl}>
-        <Select
-          value={selectedProduct}
-          onChange={handleChange}
-          name="product"
-          displayEmpty
-        >
-          <MenuItem value="" disabled>
-            {description}
+    <FormControl className={classes.formControl}>
+      <Select
+        value={selectedProduct}
+        onChange={handleChange}
+        name="product"
+        displayEmpty
+      >
+        <MenuItem value="" disabled>
+          {description}
+        </MenuItem>
+        {items.map(item => (
+          <MenuItem key={item.id} value={item.id}>
+            {item.id}
           </MenuItem>
-          {items.map(item => (
-            <MenuItem key={item.id} value={item.id}>
-              {item.id}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 
