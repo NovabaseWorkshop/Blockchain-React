@@ -246,7 +246,7 @@ class Home extends Component {
             className={classes.button}
             onClick={this.submitData}
           >
-            <Typography color="primary">Submit</Typography>
+            Submit
           </Button>
         </Grid>
       </div>

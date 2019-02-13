@@ -245,7 +245,7 @@ class RetailerPurchase extends Component {
                       <CustomTableCell align="right">
                         <Fab
                           size="small"
-                          color="primary"
+                          color="secondary"
                           aria-label="Add"
                           className={classes.fab}
                           onClick={() => this.handleClickOpen(row)}
@@ -261,7 +261,7 @@ class RetailerPurchase extends Component {
                             }}
                             item={row} */
                         >
-                          <AddIcon color={"secondary"} />
+                          <AddIcon color={"inherent"} />
                         </Fab>
                       </CustomTableCell>
                     </TableRow>

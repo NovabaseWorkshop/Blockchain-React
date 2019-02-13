@@ -194,7 +194,7 @@ class RetailerPurchase extends Component {
     return (
       <Grid>
         <AppBar />
-        <Grid containe direction="column">
+        <Grid container direction="column">
           <Grid item>
             <Typography style={{ padding: 20 }} variant="h3">
               {this.props.location.product}
