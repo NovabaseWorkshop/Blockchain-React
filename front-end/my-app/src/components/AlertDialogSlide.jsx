@@ -80,9 +80,6 @@ function Message(props) {
     console.log(list);
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        Click on a box to check timeline
-        <br />
-        <br />
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -128,15 +125,8 @@ function Message(props) {
             </TableBody>
           </Table>
         </Paper>
-        {/* <div>
-            <Paper className>
-              <b>IdCaixa:</b> {row.product} <b>Product:</b> {row.id}{" "}
-              <Button variant="contained" date="name" onClick={""}>
-                TimeLine
-              </Button>
-            </Paper>
-            <br />
-          </div> */}
+        <br />
+        Click on a box to check timeline
       </DialogContentText>
     );
   }

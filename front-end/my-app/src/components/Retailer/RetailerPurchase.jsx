@@ -43,6 +43,11 @@ const styles = theme => ({
   },
   grid: {
     marginTop: 20
+  },
+
+  div: {
+    paddingLeft: 40,
+    paddingRight: 40
   }
 });
 
@@ -162,73 +167,77 @@ class RetailerPurchase extends Component {
     return (
       <div>
         <AppBar />
-        <h2>Cooperative Products</h2>
-        <Grid container className={classes.grid}>
-          <Paper className={classes.root}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <CustomTableCell>BoxId </CustomTableCell>
-                  <CustomTableCell align="right">Product</CustomTableCell>
-                  <CustomTableCell align="right">Cost/kg</CustomTableCell>
-                  <CustomTableCell align="right">Weight/kg</CustomTableCell>
-                  <CustomTableCell align="right">Total Cost</CustomTableCell>
-                  <CustomTableCell align="right" />
-                  <CustomTableCell align="right" />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.avaliable_boxes.map(row => (
-                  <TableRow className={classes.row} key={row.id}>
-                    <CustomTableCell component="th" scope="row">
-                      {row.id}
-                    </CustomTableCell>
-                    <CustomTableCell align="right">
-                      {row.product}
-                    </CustomTableCell>
-                    <CustomTableCell align="right">{row.price}</CustomTableCell>
-                    <CustomTableCell align="right">
-                      {row.weight}
-                    </CustomTableCell>
-                    <CustomTableCell align="right">
-                      {row.final_cost_retailer}
-                    </CustomTableCell>
-
-                    <CustomTableCell align="right">
-                      <form className={classes.container} noValidate>
-                        <TextField
-                          id="date"
-                          name="date"
-                          label="Date"
-                          onChange={this.myHandlerInput}
-                          type="date"
-                          defaultValue="2018-02-14"
-                          className={classes.textField}
-                          InputLabelProps={{
-                            shrink: true
-                          }}
-                        />
-                      </form>
-                    </CustomTableCell>
-
-                    <CustomTableCell align="right">
-                      <Button
-                        variant="contained"
-                        date="name"
-                        className={classes.button}
-                        color="secondary"
-                        onClick={() => this.submitData(row)}
-                        {...(this.state.disabled ? "disabled" : null)}
-                      >
-                        BUY
-                      </Button>
-                    </CustomTableCell>
+        <div className={classes.div}>
+          <h2>Cooperative Products</h2>
+          <Grid container className={classes.grid}>
+            <Paper className={classes.root}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <CustomTableCell>BoxId </CustomTableCell>
+                    <CustomTableCell align="center">Product</CustomTableCell>
+                    <CustomTableCell align="right">Cost/kg</CustomTableCell>
+                    <CustomTableCell align="right">Weight</CustomTableCell>
+                    <CustomTableCell align="right">Total Cost</CustomTableCell>
+                    <CustomTableCell align="right" />
+                    <CustomTableCell align="right" />
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-        </Grid>
+                </TableHead>
+                <TableBody>
+                  {this.state.avaliable_boxes.map(row => (
+                    <TableRow className={classes.row} key={row.id}>
+                      <CustomTableCell component="th" scope="row">
+                        {row.id}
+                      </CustomTableCell>
+                      <CustomTableCell align="center">
+                        {row.product}
+                      </CustomTableCell>
+                      <CustomTableCell align="center">
+                        {row.price}€
+                      </CustomTableCell>
+                      <CustomTableCell align="center">
+                        {row.weight}kg
+                      </CustomTableCell>
+                      <CustomTableCell align="center">
+                        {row.final_cost_retailer}€
+                      </CustomTableCell>
+
+                      <CustomTableCell align="right">
+                        <form className={classes.container} noValidate>
+                          <TextField
+                            id="date"
+                            name="date"
+                            label="Date"
+                            onChange={this.myHandlerInput}
+                            type="date"
+                            defaultValue="2018-02-14"
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true
+                            }}
+                          />
+                        </form>
+                      </CustomTableCell>
+
+                      <CustomTableCell align="right">
+                        <Button
+                          variant="contained"
+                          date="name"
+                          className={classes.button}
+                          color="secondary"
+                          onClick={() => this.submitData(row)}
+                          {...(this.state.disabled ? "disabled" : null)}
+                        >
+                          BUY
+                        </Button>
+                      </CustomTableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Paper>
+          </Grid>
+        </div>
       </div>
     );
   }

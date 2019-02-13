@@ -7,9 +7,11 @@
     "@material-ui/icons": "^3.0.2",
     "date-and-time": "^0.6.3",
     "material-ui-icons": "^1.0.0-beta.36",
+    "moment": "^2.24.0",
     "react": "^16.7.0",
     "react-css-grid": "^2.0.0-0",
     "react-dom": "^16.7.0",
+    "react-moment": "^0.8.4",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3"
   },

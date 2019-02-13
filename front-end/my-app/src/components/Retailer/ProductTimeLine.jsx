@@ -15,6 +15,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Grid from "@material-ui/core/Grid";
+import Moment from "react-moment";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -57,9 +58,11 @@ function getStepContent(step, boxes) {
             <TableHead>
               <TableRow>
                 <CustomTableCell>Box Id </CustomTableCell>
-                <CustomTableCell>Cost/kg</CustomTableCell>
-                <CustomTableCell>Transportaion Cost €</CustomTableCell>
-                <CustomTableCell>Weight Kg</CustomTableCell>
+                <CustomTableCell align="center">Cost/kg</CustomTableCell>
+                <CustomTableCell align="center">
+                  Transportaion Cost €
+                </CustomTableCell>
+                <CustomTableCell align="center">Weight</CustomTableCell>
                 <CustomTableCell>Date</CustomTableCell>
               </TableRow>
             </TableHead>
@@ -67,10 +70,12 @@ function getStepContent(step, boxes) {
               {boxes.Farmer.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.price}</TableCell>
-                  <TableCell>{row.transport_cost}</TableCell>
-                  <TableCell>{row.weight}</TableCell>
-                  <TableCell>{row.date}</TableCell>
+                  <TableCell align="center">{row.price}€</TableCell>
+                  <TableCell align="center">{row.transport_cost}€</TableCell>
+                  <TableCell align="center">{row.weight}kg</TableCell>
+                  <TableCell>
+                    <Moment format="DD/MM/YYYY">{row.date}</Moment>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -84,9 +89,9 @@ function getStepContent(step, boxes) {
             <TableHead>
               <TableRow>
                 <CustomTableCell>Box Id </CustomTableCell>
-                <CustomTableCell>Deliver Cost €</CustomTableCell>
-                <CustomTableCell>Margin €</CustomTableCell>
-                <CustomTableCell>Final Price €</CustomTableCell>
+                <CustomTableCell align="center">Deliver Cost</CustomTableCell>
+                <CustomTableCell align="center">Margin</CustomTableCell>
+                <CustomTableCell align="center">Final Price</CustomTableCell>
                 <CustomTableCell>Date</CustomTableCell>
               </TableRow>
             </TableHead>
@@ -94,10 +99,14 @@ function getStepContent(step, boxes) {
               {boxes.Cooperative.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.transport_cost}</TableCell>
-                  <TableCell>{row.margin}</TableCell>
-                  <TableCell>{row.final_cost_retailer}</TableCell>
-                  <TableCell>{row.date}</TableCell>
+                  <TableCell align="center">{row.transport_cost}€</TableCell>
+                  <TableCell align="center">{row.margin}%</TableCell>
+                  <TableCell align="center">
+                    {row.final_cost_retailer}€
+                  </TableCell>
+                  <TableCell>
+                    <Moment format="DD/MM/YYYY">{row.date}</Moment>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -111,9 +120,9 @@ function getStepContent(step, boxes) {
             <TableHead>
               <TableRow>
                 <CustomTableCell>Box Id </CustomTableCell>
-                <CustomTableCell>Cost/kg </CustomTableCell>
-                <CustomTableCell>Weight Kg</CustomTableCell>
-                <CustomTableCell>Final Price €</CustomTableCell>
+                <CustomTableCell align="center">Cost/kg </CustomTableCell>
+                <CustomTableCell align="center">Weight</CustomTableCell>
+                <CustomTableCell align="center">Final Price</CustomTableCell>
                 <CustomTableCell>Date</CustomTableCell>
               </TableRow>
             </TableHead>
@@ -121,10 +130,12 @@ function getStepContent(step, boxes) {
               {boxes.Retailer.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.price}</TableCell>
-                  <TableCell>{row.weight}</TableCell>
-                  <TableCell>{row.final_cost}</TableCell>
-                  <TableCell>{row.date}</TableCell>
+                  <TableCell align="center">{row.price}€</TableCell>
+                  <TableCell align="center">{row.weight}kg</TableCell>
+                  <TableCell align="center">{row.final_cost}€</TableCell>
+                  <TableCell>
+                    <Moment format="DD/MM/YYYY">{row.date}</Moment>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

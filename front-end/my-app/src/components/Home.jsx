@@ -45,6 +45,10 @@ const styles = theme => ({
   },
   title: {
     textAlign: "left"
+  },
+  div: {
+    paddingLeft: 40,
+    paddingRight: 40
   }
 });
 
@@ -116,6 +120,8 @@ class Home extends Component {
   myHandlerInput = event => {
     let aux = event.target.value;
 
+    if (event.target.name) {
+    }
     this.setState({ [event.target.name]: aux.toString() });
   };
 
@@ -133,136 +139,138 @@ class Home extends Component {
     return (
       <div>
         <AppBar />
+        <div className={classes.div}>
+          <h2 className={classes.title}>Product Registration </h2>
 
-        <h2 className={classes.title}>Product Registration </h2>
-        {this.state.open ? (
-          <AlertDialogSlide
-            value="farm"
-            title="Success"
-            handleClickOpen={this.handleClickOpen}
-            productId={this.state.productId}
-            handleClose={this.handleClose}
-          />
-        ) : null}
+          {this.state.open ? (
+            <AlertDialogSlide
+              value="farm"
+              title="Success"
+              handleClickOpen={this.handleClickOpen}
+              productId={this.state.productId}
+              handleClose={this.handleClose}
+            />
+          ) : null}
 
-        <Paper className={classes.paper}>
+          <Paper className={classes.paper}>
+            <Grid
+              container
+              direction="row"
+              justify="space-evenly"
+              alignItems="center"
+            >
+              <Grid item>
+                <TextField
+                  id="standard-select-currency"
+                  select
+                  label="Product"
+                  name="product"
+                  className={classes.textField}
+                  value={this.state.product}
+                  onChange={this.myHandlerInput}
+                  margin="normal"
+                >
+                  {selectObject.map(option => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.id}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={this.state.transport_cost}
+                  margin="normal"
+                  label="Transport Cost"
+                  name="transport_cost"
+                  onChange={this.myHandlerInput}
+                  id="simple-start-adornment"
+                  className={classNames(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">€</InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  margin="normal"
+                  value={this.state.weight}
+                  label="Weight"
+                  id="simple-start-adornment"
+                  name="weight"
+                  onChange={this.myHandlerInput}
+                  className={classNames(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">Kg</InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={this.state.price}
+                  margin="normal"
+                  label="Price"
+                  name="price"
+                  id="simple-start-adornment"
+                  onChange={this.myHandlerInput}
+                  className={classNames(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">€/Kg</InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  formatDate={this.formatDate}
+                  margin="normal"
+                  id="date"
+                  name="date"
+                  label="Date"
+                  onChange={this.myHandlerInput}
+                  type="date"
+                  defaultValue="2018-02-14"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+              </Grid>
+
+              <Grid item />
+            </Grid>
+          </Paper>
+
           <Grid
             container
-            direction="row"
+            direction="column"
             justify="space-evenly"
             alignItems="center"
           >
-            <Grid item>
-              <TextField
-                id="standard-select-currency"
-                select
-                label="Product"
-                name="product"
-                className={classes.textField}
-                value={this.state.product}
-                onChange={this.myHandlerInput}
-                margin="normal"
-              >
-                {selectObject.map(option => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.id}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item>
-              <TextField
-                value={this.state.transport_cost}
-                margin="normal"
-                label="Transport Cost"
-                name="transport_cost"
-                onChange={this.myHandlerInput}
-                id="simple-start-adornment"
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">€</InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                margin="normal"
-                value={this.state.weight}
-                label="Weight"
-                id="simple-start-adornment"
-                name="weight"
-                onChange={this.myHandlerInput}
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">Kg</InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                value={this.state.price}
-                margin="normal"
-                label="Price"
-                name="price"
-                id="simple-start-adornment"
-                onChange={this.myHandlerInput}
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">€/Kg</InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                formatDate={this.formatDate}
-                margin="normal"
-                id="date"
-                name="date"
-                label="Date"
-                onChange={this.myHandlerInput}
-                type="date"
-                defaultValue="2018-02-14"
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-            </Grid>
-
-            <Grid item />
+            <Button
+              variant="contained"
+              date="name"
+              color="secondary"
+              disabled={
+                this.state.product &&
+                this.state.transport_cost &&
+                this.state.weight &&
+                this.state.price
+                  ? false
+                  : true
+              }
+              className={classes.button}
+              onClick={this.submitData}
+            >
+              Submit
+            </Button>
           </Grid>
-        </Paper>
-
-        <Grid
-          container
-          direction="column"
-          justify="space-evenly"
-          alignItems="center"
-        >
-          <Button
-            variant="contained"
-            date="name"
-            color="secondary"
-            disabled={
-              this.state.product &&
-              this.state.transport_cost &&
-              this.state.weight &&
-              this.state.price
-                ? false
-                : true
-            }
-            className={classes.button}
-            onClick={this.submitData}
-          >
-            Submit
-          </Button>
-        </Grid>
+        </div>
       </div>
     );
   }

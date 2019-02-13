@@ -46,7 +46,10 @@ const styles = theme => ({
     width: 200
   },
   div: {
-    textAlign: "left"
+    textAlign: "left",
+
+    paddingLeft: 40,
+    paddingRight: 40
   }
 });
 
@@ -167,6 +170,7 @@ class Cooperative extends Component {
             handleClose={this.handleClose}
           />
         ) : null}
+        <div className={classes.div} />
         <h2 className={classes.div}>Cooperative: Product Purchase</h2>
 
         <Paper className={classes.paper2}>

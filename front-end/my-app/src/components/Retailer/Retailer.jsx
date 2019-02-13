@@ -11,6 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import AlertDialogSlide from "../AlertDialogSlide.jsx";
+import Moment from "react-moment";
 
 const styles = theme => ({
   root: {
@@ -40,6 +41,10 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200
+  },
+  div: {
+    paddingLeft: 40,
+    paddingRight: 40
   }
 });
 
@@ -193,60 +198,62 @@ class RetailerPurchase extends Component {
     return (
       <div>
         <AppBar />
-        <h2>Retailer Iventory</h2>
-        {this.state.open ? (
-          <AlertDialogSlide
-            value="retailering"
-            title="Boxes"
-            item={this.state.item}
-            object={this.state.object}
-            handleClickOpen={this.handleClickOpen}
-            handleClose={this.handleClose}
-          />
-        ) : null}
-        {this.getListItems()}
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <CustomTableCell>Date </CustomTableCell>
 
-                <CustomTableCell align="right">Product</CustomTableCell>
-                <CustomTableCell align="right">Total Weight/kg</CustomTableCell>
-                <CustomTableCell align="right">Total Cost</CustomTableCell>
-                <CustomTableCell align="right" />
-                <CustomTableCell align="right" />
-              </TableRow>
-            </TableHead>
+        <div className={classes.div}>
+          <h2>Retailer Iventory</h2>
+          {this.state.open ? (
+            <AlertDialogSlide
+              value="retailering"
+              title="Boxes"
+              item={this.state.item}
+              object={this.state.object}
+              handleClickOpen={this.handleClickOpen}
+              handleClose={this.handleClose}
+            />
+          ) : null}
+          {this.getListItems()}
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <CustomTableCell>Date </CustomTableCell>
 
-            <TableBody>
-              {this.state.avaliable_boxes
-                ? this.state.avaliable_boxes.map(row => (
-                    <TableRow className={classes.row} key={Math.random()}>
-                      <CustomTableCell component="th" scope="row">
-                        {row.date}
-                      </CustomTableCell>
-                      <CustomTableCell align="right">
-                        {row.product}
-                      </CustomTableCell>
-                      <CustomTableCell align="right">
-                        {row.weight}
-                      </CustomTableCell>
-                      <CustomTableCell align="right">
-                        {row.total_price}
-                      </CustomTableCell>
-                      <CustomTableCell align="right">
-                        {row.final_cost_retailer}
-                      </CustomTableCell>
+                  <CustomTableCell align="center">Product</CustomTableCell>
+                  <CustomTableCell align="center">Total Weight</CustomTableCell>
+                  <CustomTableCell align="center">Total Cost</CustomTableCell>
+                  <CustomTableCell align="right" />
+                  <CustomTableCell align="right" />
+                </TableRow>
+              </TableHead>
 
-                      <CustomTableCell align="right">
-                        <Fab
-                          size="small"
-                          color="secondary"
-                          aria-label="Add"
-                          className={classes.fab}
-                          onClick={() => this.handleClickOpen(row)}
-                          /* component={Link}
+              <TableBody>
+                {this.state.avaliable_boxes
+                  ? this.state.avaliable_boxes.map(row => (
+                      <TableRow className={classes.row} key={Math.random()}>
+                        <CustomTableCell component="th" scope="row">
+                          <Moment format="DD/MM/YYYY">{row.date}</Moment>
+                        </CustomTableCell>
+                        <CustomTableCell align="center">
+                          {row.product}
+                        </CustomTableCell>
+                        <CustomTableCell align="center">
+                          {row.weight}kg
+                        </CustomTableCell>
+                        <CustomTableCell align="center">
+                          {row.total_price}€
+                        </CustomTableCell>
+                        <CustomTableCell align="center">
+                          {row.final_cost_retailer}
+                        </CustomTableCell>
+
+                        <CustomTableCell align="right">
+                          <Fab
+                            size="small"
+                            color="secondary"
+                            aria-label="Add"
+                            className={classes.fab}
+                            onClick={() => this.handleClickOpen(row)}
+                            /* component={Link}
                             to={{
                               pathname:
                                 "/productTimeLine/" +
@@ -257,16 +264,17 @@ class RetailerPurchase extends Component {
                               date: row.date
                             }}
                             item={row} */
-                        >
-                          <AddIcon color={"inherent"} />
-                        </Fab>
-                      </CustomTableCell>
-                    </TableRow>
-                  ))
-                : null}
-            </TableBody>
-          </Table>
-        </Paper>
+                          >
+                            <AddIcon color={"inherent"} />
+                          </Fab>
+                        </CustomTableCell>
+                      </TableRow>
+                    ))
+                  : null}
+              </TableBody>
+            </Table>
+          </Paper>
+        </div>
       </div>
     );
   }
