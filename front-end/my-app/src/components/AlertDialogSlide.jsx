@@ -97,7 +97,7 @@ function Message(props) {
     console.log(list);
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        Click on a box to check timeline
+        Click on the button to check timeline
         <br />
         <br />
         <Paper className={classes.root}>
@@ -184,7 +184,9 @@ class AlertDialogSlide extends React.Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle id="alert-dialog-slide-title">{"Success"}</DialogTitle>
+          <DialogTitle id="alert-dialog-slide-title">
+            {this.props.title}
+          </DialogTitle>
           <DialogContent>{Message(this.props)}</DialogContent>
           <DialogActions>
             <Button onClick={this.props.handleClose} color="primary">

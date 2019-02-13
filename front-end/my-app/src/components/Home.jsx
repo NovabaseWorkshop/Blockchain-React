@@ -134,6 +134,7 @@ class Home extends Component {
         {this.state.open ? (
           <AlertDialogSlide
             value="farm"
+            title="Success"
             handleClickOpen={this.handleClickOpen}
             productId={this.state.productId}
             handleClose={this.handleClose}

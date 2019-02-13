@@ -65,11 +65,13 @@ const styles2 = theme => ({
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+    fontWeight: 600,
+    fontSize: 16
   },
   body: {
-    fontSize: 14
+    fontSize: 16
   }
 }))(TableCell);
 
@@ -191,16 +193,15 @@ class RetailerPurchase extends Component {
 
   render() {
     const { classes } = this.props;
-    const newTo = {
-      pathname: "/category/595212758daa6810cbba4104",
-      param1: "Par1"
-    };
+
     return (
       <div>
         <AppBar />
+        <h2>Retailer Iventory</h2>
         {this.state.open ? (
           <AlertDialogSlide
             value="retailering"
+            title="Boxes"
             item={this.state.item}
             object={this.state.object}
             handleClickOpen={this.handleClickOpen}
