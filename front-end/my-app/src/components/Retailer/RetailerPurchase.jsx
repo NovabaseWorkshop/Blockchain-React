@@ -108,10 +108,12 @@ class RetailerPurchase extends Component {
 
     let a = "";
     date = this.state.date[item.id];
-    a = date[0];
+
+    if (!date) a = "2018-02-14";
+    else a = date[0];
 
     var index = array.indexOf(item);
-    console.log(index);
+
     if (index > -1) {
       array.splice(index, 1);
     }
@@ -140,7 +142,6 @@ class RetailerPurchase extends Component {
       .then(data => data.json())
       .then(data => {
         this.setState({ avaliable_boxes: data.boxesToSold });
-        console.log(this.state.avaliable_boxes);
       });
   }
 
@@ -155,7 +156,6 @@ class RetailerPurchase extends Component {
     let final_object = this.state.date;
     let array = [];
 
-    console.log(final_object);
     if (event.target.name === "date") {
       aux = row;
       aux.date = event.target.value;
@@ -177,10 +177,8 @@ class RetailerPurchase extends Component {
   }
 
   getFinalPrice(item) {
-    console.log("meeeeh");
     let final_cost =
       (item.price * item.weight + item.transport_cost) * this.state.margin;
-    console.log("camarao: " + final_cost);
     return final_cost;
   }
 

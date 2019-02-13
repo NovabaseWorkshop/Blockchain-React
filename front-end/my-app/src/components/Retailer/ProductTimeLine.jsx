@@ -185,16 +185,11 @@ class RetailerPurchase extends Component {
   }
 
   componentDidMount() {
-    let params = new URL(document.location).searchParams;
-    let name = params.get("date");
-    console.log(this.props);
-    console.log(this.props.location.id);
     let url = "http://localhost:3001/getBoxTimeline/" + this.props.location.id;
 
     fetch(url)
       .then(data => data.json())
       .then(data => {
-        console.log(data);
         this.setState({ data: data });
       });
   }
