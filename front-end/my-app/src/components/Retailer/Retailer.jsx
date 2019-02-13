@@ -8,12 +8,8 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import Icon from "@material-ui/core/Icon";
-import { Link } from "react-router-dom";
 import AlertDialogSlide from "../AlertDialogSlide.jsx";
 
 const styles = theme => ({
