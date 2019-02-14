@@ -7,6 +7,7 @@ Qualquer dúvida que tenham, podem contactar-nos através dos seguintes emails:
 
 * guilherme.ribeiro@novabase.pt
 * joao.silva.borralho@novabase.pt
+* ricardo.andre.nunes@novabase.pt
 
 
 
