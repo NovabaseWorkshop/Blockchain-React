@@ -254,7 +254,7 @@ class RetailerPurchase extends Component {
                             className={classes.fab}
                             onClick={() => this.handleClickOpen(row)}
                           >
-                            <AddIcon color={"inherent"} />
+                            <AddIcon color={"inherit"} />
                           </Fab>
                         </CustomTableCell>
                       </TableRow>

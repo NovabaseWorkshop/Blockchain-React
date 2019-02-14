@@ -21,7 +21,6 @@ const styles = theme => ({
 
 const SelecterFarmer = props => {
   const { classes, selectedProduct, handleChange, description, items } = props;
-  console.log(items);
 
   return (
     <FormControl className={classes.formControl}>
