@@ -1,5 +1,15 @@
 # Blockchain-React Conceitos base
 
+### Pos-Workshop 
+
+Foi colocada a solução do exercicio no repositorio. 
+Qualquer dúvida que tenham, podem contactar-nos através dos seguintes emails:
+
+* guilherme.ribeiro@novabase.pt
+* joao.silva.borralho@novabase.pt
+
+
+
 **Requirements:** 
 `Node.js`
 `Postman(Only to test the services)`
