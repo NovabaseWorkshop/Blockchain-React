@@ -2,7 +2,7 @@
 
 ### Pos-Workshop 
 
-Foi colocada a solução do exercicio no repositorio. 
+Foi colocada a solução do exercicio no repositório. 
 Qualquer dúvida que tenham, podem contactar-nos através dos seguintes emails:
 
 * guilherme.ribeiro@novabase.pt
