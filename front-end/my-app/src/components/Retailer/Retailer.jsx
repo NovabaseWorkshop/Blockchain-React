@@ -200,7 +200,7 @@ class RetailerPurchase extends Component {
         <AppBar />
 
         <div className={classes.div}>
-          <h2>Retailer Iventory</h2>
+          <h2>Retailer Inventory</h2>
           {this.state.open ? (
             <AlertDialogSlide
               value="retailering"
