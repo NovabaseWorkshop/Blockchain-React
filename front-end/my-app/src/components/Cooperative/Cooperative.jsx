@@ -10,7 +10,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import classNames from "classnames";
 import Button from "@material-ui/core/Button";
 import AlertDialogSlide from "../AlertDialogSlide.jsx";
-import Typography from "@material-ui/core/Typography";
 import {
   currencyFormatter,
   floatNumberFormatter
@@ -128,7 +127,7 @@ class Cooperative extends Component {
 
   myHandlerInput = event => {
     let aux = event.target.value.toString();
-    console.log(event.target.name);
+
     let rgx = /^[0-9]*\.?[0-9]*$/;
     if (
       aux.match(rgx) ||

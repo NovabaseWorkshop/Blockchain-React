@@ -75,7 +75,7 @@ function Message(props) {
   else if (props.value === "alert")
     return (
       <DialogContentText id="alert-dialog-slide-description">
-        You can only use numbers and comma.
+        You can only use numbers and dot.
       </DialogContentText>
     );
   else if (props.value === "retailering") {

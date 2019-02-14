@@ -110,8 +110,7 @@ class Home extends Component {
         price: "",
         transport_cost: "",
         productId: rand,
-        title: "Success",
-        alert_type: "coop"
+        title: "Success"
       })
     );
   };
