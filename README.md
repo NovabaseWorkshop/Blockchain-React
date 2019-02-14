@@ -1,10 +1,23 @@
 # Blockchain-React Conceitos base
 
+### Pos-Workshop 
+
+Foi colocada a solução do exercicio no repositório. 
+Qualquer dúvida que tenham, podem contactar-nos através dos seguintes emails:
+
+* guilherme.ribeiro@novabase.pt
+* joao.silva.borralho@novabase.pt
+* ricardo.andre.nunes@novabase.pt
+
+
+
+
+
+### NaiveChain install
+
 **Requirements:** 
 `Node.js`
 `Postman(Only to test the services)`
-
-### NaiveChain install
 
 Open the command Line in the Blockchain-React/naivechain directory and type the following:
 
