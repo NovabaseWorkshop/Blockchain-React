@@ -77,7 +77,9 @@ class Home extends Component {
       id: -1,
       date: "2018-2-14",
       open: false,
-      productId: "" //id of last product registed
+      productId: "", //id of last product registed,
+      alert_type: "",
+      title: ""
     };
   }
 
@@ -103,10 +105,13 @@ class Home extends Component {
     }).then(
       this.setState({
         open: true,
+        alert_type: "farm",
         weight: "",
         price: "",
         transport_cost: "",
-        productId: rand
+        productId: rand,
+        title: "Success",
+        alert_type: "coop"
       })
     );
   };
@@ -118,9 +123,14 @@ class Home extends Component {
   myHandlerInput = event => {
     let aux = event.target.value;
 
-    if (event.target.name) {
-    }
-    this.setState({ [event.target.name]: aux.toString() });
+    let rgx = /^[0-9]*\.?[0-9]*$/;
+    if (
+      aux.match(rgx) ||
+      event.target.name === "product" ||
+      event.target.name === "date"
+    )
+      this.setState({ [event.target.name]: aux.toString() });
+    else this.setState({ open: true, alert_type: "alert", title: "Error" });
   };
 
   handleClickOpen = () => {
@@ -129,7 +139,7 @@ class Home extends Component {
 
   handleClose = () => {
     if (this.props.value === "error") window.location.reload();
-    this.setState({ open: false });
+    this.setState({ open: false, title: "Error" });
   };
 
   render() {
@@ -142,8 +152,8 @@ class Home extends Component {
 
           {this.state.open ? (
             <AlertDialogSlide
-              value="farm"
-              title="Success"
+              value={this.state.alert_type}
+              title={this.state.title}
               handleClickOpen={this.handleClickOpen}
               productId={this.state.productId}
               handleClose={this.handleClose}

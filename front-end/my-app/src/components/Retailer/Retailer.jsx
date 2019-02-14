@@ -108,7 +108,6 @@ class RetailerPurchase extends Component {
     fetch("http://localhost:3001/getBoxesByDate")
       .then(data => data.json())
       .then(data => {
-        console.log(data);
         for (var key in data) {
           boxes = data[key].boxes;
           object[key] = {};
@@ -120,7 +119,7 @@ class RetailerPurchase extends Component {
             object[key][boxes[i].product].push(boxes[i]);
           }
         }
-        console.log(object);
+
         this.setState({
           avaliable_boxes: this.getListItems(object),
           object: object
@@ -137,7 +136,6 @@ class RetailerPurchase extends Component {
     let total_weight = 0;
     let total_price = 0;
 
-    console.log(object);
     for (var key in object) {
       object2 = object[key];
       for (var key2 in object2) {
@@ -157,7 +155,7 @@ class RetailerPurchase extends Component {
         total_price = 0;
       }
     }
-    console.log(items);
+
     return items;
   }
 
@@ -180,10 +178,8 @@ class RetailerPurchase extends Component {
   }
 
   getFinalPrice(item) {
-    console.log("meeeeh");
     let final_cost =
       (item.price * item.weight + item.transport_cost) * this.state.margin;
-    console.log("camarao: " + final_cost);
     return final_cost;
   }
 

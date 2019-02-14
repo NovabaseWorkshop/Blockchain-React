@@ -55,9 +55,6 @@ function getList(props) {
   let array;
   array = object[props.item.date][props.item.product];
 
-  console.log(props.object);
-  console.log(props.item);
-  console.log(array);
   return array;
 }
 
@@ -75,9 +72,15 @@ function Message(props) {
         Product with id {props.productId} purchased.
       </DialogContentText>
     );
+  else if (props.value === "alert")
+    return (
+      <DialogContentText id="alert-dialog-slide-description">
+        You can only use numbers and comma.
+      </DialogContentText>
+    );
   else if (props.value === "retailering") {
     let list = getList(props);
-    console.log(list);
+
     return (
       <DialogContentText id="alert-dialog-slide-description">
         <Paper className={classes.root}>

@@ -74,7 +74,8 @@ class Cooperative extends Component {
       margin: "",
       open: false,
       avaliable_boxes: [],
-      lastProductSold: {}
+      lastProductSold: {},
+      alert_type: ""
     };
   }
 
@@ -82,7 +83,7 @@ class Cooperative extends Component {
     var array = this.state.boxes_sold;
 
     var index = array.indexOf(item);
-    console.log(index);
+
     if (index > -1) {
       array.splice(index, 1);
     }
@@ -110,7 +111,9 @@ class Cooperative extends Component {
         margin: "",
         open: true,
         boxes_sold: array,
-        lastProductSold: item
+        lastProductSold: item,
+        alert_type: "coop",
+        title: "Success"
       })
     );
   };
@@ -120,12 +123,20 @@ class Cooperative extends Component {
       .then(data => data.json())
       .then(data => {
         this.setState({ boxes_sold: data.boxesToSold });
-        console.log(this.state.boxes_sold);
       });
   }
 
   myHandlerInput = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    let aux = event.target.value.toString();
+    console.log(event.target.name);
+    let rgx = /^[0-9]*\.?[0-9]*$/;
+    if (
+      aux.match(rgx) ||
+      event.target.name === "product" ||
+      event.target.name === "date"
+    )
+      this.setState({ [event.target.name]: event.target.value });
+    else this.setState({ open: true, alert_type: "alert", title: "Error" });
   };
 
   getProductObject() {
@@ -169,8 +180,8 @@ class Cooperative extends Component {
         <div className={classes.div2}>
           {this.state.open ? (
             <AlertDialogSlide
-              value="coop"
-              title="Success"
+              value={this.state.alert_type}
+              title={this.state.title}
               productId={this.state.lastProductSold.id}
               handleClickOpen={this.handleClickOpen}
               handleClose={this.handleClose}
