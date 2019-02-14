@@ -129,7 +129,7 @@ function Message(props) {
           </Table>
         </Paper>
         <br />
-        Click on a box to check timeline
+        Click on details to check timeline
       </DialogContentText>
     );
   }
