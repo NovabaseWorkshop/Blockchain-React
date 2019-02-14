@@ -235,7 +235,6 @@ class Home extends Component {
               </Grid>
               <Grid item>
                 <TextField
-                  formatDate={this.formatDate}
                   margin="normal"
                   id="date"
                   name="date"
